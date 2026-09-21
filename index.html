@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0b0d">
+
+<title>Control Barra</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#0b0b0d;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+body{
+  padding:18px 14px 100px;
+}
+
+.app{
+  width:100%;
+  max-width:600px;
+  margin:auto;
+}
+
+.oculto{
+  display:none !important;
+}
+
+.logo{
+  text-align:center;
+  margin:15px 0 25px;
+}
+
+.logo .mini{
+  color:#999;
+  font-size:12px;
+  letter-spacing:3px;
+}
+
+.logo h1{
+  margin:6px 0 0;
+  font-size:31px;
+  color:#f04fa5;
+}
+
+.logo p{
+  margin:6px 0;
+  color:#aaa;
+}
+
+.panel{
+  background:#17171b;
+  border:1px solid #292930;
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:16px;
+}
+
+label{
+  display:block;
+  margin:0 0 7px;
+  font-weight:bold;
+  font-size:14px;
+}
+
+input{
+  width:100%;
+  border:1px solid #444;
+  border-radius:11px;
+  background:#0e0e11;
+  color:#fff;
+  padding:16px;
+  font-size:17px;
+  outline:none;
+  margin-bottom:15px;
+}
+
+input:focus{
+  border-color:#f04fa5;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.btnPrincipal{
+  width:100%;
+  background:#f04fa5;
+  color:white;
+  padding:17px;
+  border-radius:11px;
+}
+
+button:disabled{
+  opacity:.5;
+  cursor:wait;
+}
+
+.error{
+  background:#381616;
+  color:#ff9d9d;
+  border-radius:10px;
+  padding:13px;
+  margin-top:14px;
+  line-height:1.4;
+}
+
+.ok{
+  background:#12321e;
+  color:#75e39a;
+  border-radius:10px;
+  padding:13px;
+  margin-top:14px;
+}
+
+.cabeceraVenta{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:18px;
+}
+
+.vendedor{
+  font-size:14px;
+  color:#aaa;
+}
+
+.vendedor strong{
+  color:#fff;
+  display:block;
+  font-size:18px;
+}
+
+.turno{
+  background:#14331f;
+  color:#73e497;
+  padding:8px 10px;
+  border-radius:8px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.titulo{
+  font-size:21px;
+  font-weight:bold;
+  margin:20px 0 12px;
+}
+
+.producto{
+  background:#17171b;
+  border:1px solid #292930;
+  border-radius:15px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.productoTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.nombreProducto{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.categoria{
+  font-size:11px;
+  color:#888;
+  margin-top:4px;
+  text-transform:uppercase;
+}
+
+.precio{
+  font-size:20px;
+  font-weight:bold;
+  color:#f04fa5;
+  white-space:nowrap;
+}
+
+.promo{
+  display:inline-block;
+  background:#332218;
+  color:#ffc36b;
+  border-radius:7px;
+  padding:6px 9px;
+  margin-top:10px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.stock{
+  color:#888;
+  font-size:12px;
+  margin-top:8px;
+}
+
+.controles{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:13px;
+  margin-top:14px;
+}
+
+.btnCantidad{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:#303036;
+  color:#fff;
+  font-size:23px;
+}
+
+.btnMas{
+  background:#f04fa5;
+}
+
+.cantidad{
+  min-width:30px;
+  text-align:center;
+  font-size:21px;
+  font-weight:bold;
+}
+
+.resumen{
+  background:#17171b;
+  border:1px solid #333;
+  border-radius:17px;
+  padding:18px;
+  margin-top:20px;
+}
+
+.lineaCarrito{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid #292930;
+  font-size:14px;
+}
+
+.lineaCarrito:last-child{
+  border-bottom:0;
+}
+
+.totalBox{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:17px;
+  padding-top:15px;
+  border-top:2px solid #333;
+}
+
+.totalTexto{
+  font-size:17px;
+  font-weight:bold;
+}
+
+.totalNumero{
+  color:#f04fa5;
+  font-size:29px;
+  font-weight:bold;
+}
+
+.metodos{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-top:15px;
+}
+
+.metodo{
+  background:#28282e;
+  color:#ddd;
+  padding:13px 5px;
+  border-radius:9px;
+  font-size:12px;
+}
+
+.metodo.activo{
+  background:#f04fa5;
+  color:#fff;
+}
+
+.camposPago{
+  margin-top:15px;
+}
+
+.pagoFila{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:9px;
+  gap:10px;
+}
+
+.pagoFila span{
+  font-size:14px;
+}
+
+.pagoFila input{
+  width:150px;
+  margin:0;
+  padding:12px;
+  text-align:right;
+}
+
+.validacionPago{
+  font-size:12px;
+  margin:12px 0;
+  color:#aaa;
+}
+
+.valido{
+  color:#69dc8d;
+}
+
+.invalido{
+  color:#ff8585;
+}
+
+.confirmar{
+  margin-top:15px;
+  width:100%;
+  background:#f04fa5;
+  color:#fff;
+  border-radius:11px;
+  padding:18px;
+  font-size:17px;
+}
+
+.ticketFinal{
+  text-align:center;
+}
+
+.ticketFinal h2{
+  color:#70df91;
+}
+
+.numeroPedido{
+  color:#aaa;
+  margin-top:15px;
+}
+
+.codigoRetiro{
+  background:#0c0c0e;
+  border:2px dashed #f04fa5;
+  color:#f04fa5;
+  padding:18px 8px;
+  border-radius:12px;
+  font-size:23px;
+  font-weight:bold;
+  margin:15px 0;
+  word-break:break-all;
+}
+
+.totalFinal{
+  font-size:28px;
+  font-weight:bold;
+  margin:15px 0;
+}
+
+.nuevaVenta{
+  width:100%;
+  padding:17px;
+  border-radius:10px;
+  background:#fff;
+  color:#111;
+  margin-top:15px;
+}
+
+.cargando{
+  text-align:center;
+  color:#aaa;
+  padding:25px;
+}
+
+@media(max-width:400px){
+  .metodos{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- LOGIN -->
+  <section id="login">
+
+    <div class="logo">
+      <div class="mini">SISTEMA DE VENTAS</div>
+      <h1>CONTROL BARRA</h1>
+      <p>Acceso de vendedores</p>
+    </div>
+
+    <div class="panel">
+
+      <label>ID VENDEDOR</label>
+      <input
+        id="idVendedor"
+        type="text"
+        placeholder="Ej: V001"
+        autocomplete="username"
+      >
+
+      <label>PIN</label>
+      <input
+        id="pin"
+        type="password"
+        inputmode="numeric"
+        placeholder="••••"
+        autocomplete="current-password"
+      >
+
+      <button
+        id="btnLogin"
+        class="btnPrincipal"
+        onclick="iniciarSesion()"
+      >
+        INICIAR TURNO
+      </button>
+
+      <div id="mensajeLogin"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- VENTA -->
+  <section id="venta" class="oculto">
+
+    <div class="cabeceraVenta">
+
+      <div class="vendedor">
+        VENDEDOR
+        <strong id="nombreVendedor"></strong>
+      </div>
+
+      <div class="turno">
+        TURNO ABIERTO
+      </div>
+
+    </div>
+
+
+    <div class="titulo">
+      Seleccionar bebidas
+    </div>
+
+
+    <div id="listaProductos">
+      <div class="cargando">
+        Cargando productos...
+      </div>
+    </div>
+
+
+    <div class="resumen">
+
+      <div class="titulo" style="margin-top:0">
+        Pedido
+      </div>
+
+      <div id="carritoVisual">
+        <div style="color:#777;font-size:14px">
+          Todavía no agregaste bebidas.
+        </div>
+      </div>
+
+
+      <div class="totalBox">
+
+        <div class="totalTexto">
+          TOTAL
+        </div>
+
+        <div
+          id="total"
+          class="totalNumero"
+        >
+          $0
+        </div>
+
+      </div>
+
+
+      <div class="titulo">
+        Forma de pago
+      </div>
+
+
+      <div class="metodos">
+
+        <button
+          class="metodo activo"
+          id="metodoEfectivo"
+          onclick="seleccionarPago('EFECTIVO')"
+        >
+          EFECTIVO
+        </button>
+
+        <button
+          class="metodo"
+          id="metodoTransferencia"
+          onclick="seleccionarPago('TRANSFERENCIA')"
+        >
+          TRANSFERENCIA
+        </button>
+
+        <button
+          class="metodo"
+          id="metodoCombinado"
+          onclick="seleccionarPago('COMBINADO')"
+        >
+          COMBINADO
+        </button>
+
+      </div>
+
+
+      <div
+        id="camposPago"
+        class="camposPago"
+      ></div>
+
+
+      <div
+        id="validacionPago"
+        class="validacionPago"
+      ></div>
+
+
+      <button
+        id="btnConfirmar"
+        class="confirmar"
+        onclick="confirmarVenta()"
+      >
+        CONFIRMAR VENTA
+      </button>
+
+
+      <div id="mensajeVenta"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- RESULTADO -->
+  <section
+    id="resultado"
+    class="oculto"
+  >
+
+    <div class="panel ticketFinal">
+
+      <h2>
+        ✓ VENTA REGISTRADA
+      </h2>
+
+      <div
+        id="pedidoFinal"
+        class="numeroPedido"
+      ></div>
+
+      <div style="margin-top:20px;color:#aaa">
+        CÓDIGO DE RETIRO
+      </div>
+
+      <div
+        id="codigoFinal"
+        class="codigoRetiro"
+      ></div>
+
+      <div
+        id="totalFinal"
+        class="totalFinal"
+      ></div>
+
+      <div style="color:#999;font-size:13px;line-height:1.5">
+        Este código se utilizará para retirar
+        las bebidas en la barra.
+      </div>
+
+      <button
+        class="nuevaVenta"
+        onclick="nuevaVenta()"
+      >
+        NUEVA VENTA
+      </button>
+
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+// ============================================================
+// CONFIGURACIÓN
+// ============================================================
+
+const URL_APP =
+"https://script.google.com/macros/s/AKfycbwc6g41NWrO6CGlWnIozOWFrX0zl9TGaPnLuvIjJXzNyXC7rGUgLkXWLInUqRdqmLrG/exec";
+
+
+let productos = [];
+let carrito = {};
+
+let sesion = {
+  idVendedor:"",
+  nombre:"",
+  idTurno:"",
+  dispositivo:""
+};
+
+let metodoPago = "EFECTIVO";
+
+
+// ============================================================
+// DISPOSITIVO
+// ============================================================
+
+function obtenerDispositivo(){
+
+  let id =
+    localStorage.getItem(
+      "barra_dispositivo"
+    );
+
+  if(!id){
+
+    const bytes =
+      new Uint8Array(16);
+
+    crypto.getRandomValues(bytes);
+
+    id =
+      "DEV-" +
+      Array.from(
+        bytes,
+        b =>
+          b.toString(16)
+           .padStart(2,"0")
+      ).join("");
+
+    localStorage.setItem(
+      "barra_dispositivo",
+      id
+    );
+  }
+
+  return id;
+}
+
+
+// ============================================================
+// API
+// ============================================================
+
+async function apiPost(data){
+
+  const respuesta =
+    await fetch(
+      URL_APP,
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"text/plain;charset=utf-8"
+        },
+        body:JSON.stringify(data)
+      }
+    );
+
+  const texto =
+    await respuesta.text();
+
+  let json;
+
+  try{
+    json = JSON.parse(texto);
+  }catch(e){
+    throw new Error(
+      "El servidor respondió incorrectamente."
+    );
+  }
+
+  if(!json.ok){
+    throw new Error(
+      json.error ||
+      "Error del servidor."
+    );
+  }
+
+  return json;
+}
+
+
+async function apiGet(accion,parametros={}){
+
+  const url =
+    new URL(URL_APP);
+
+  url.searchParams.set(
+    "accion",
+    accion
+  );
+
+  Object.keys(parametros)
+    .forEach(k=>{
+      url.searchParams.set(
+        k,
+        parametros[k]
+      );
+    });
+
+  url.searchParams.set(
+    "_",
+    Date.now()
+  );
+
+  const respuesta =
+    await fetch(url);
+
+  const json =
+    await respuesta.json();
+
+  if(!json.ok){
+    throw new Error(
+      json.error ||
+      "Error del servidor."
+    );
+  }
+
+  return json;
+}
+
+
+// ============================================================
+// LOGIN
+// ============================================================
+
+async function iniciarSesion(){
+
+  const id =
+    document
+      .getElementById("idVendedor")
+      .value
+      .trim()
+      .toUpperCase();
+
+  const pin =
+    document
+      .getElementById("pin")
+      .value
+      .trim();
+
+  const mensaje =
+    document
+      .getElementById("mensajeLogin");
+
+  const boton =
+    document
+      .getElementById("btnLogin");
+
+
+  mensaje.innerHTML = "";
+
+
+  if(!id || !pin){
+
+    mensaje.innerHTML =
+      '<div class="error">'+
+      'Ingresá vendedor y PIN.'+
+      '</div>';
+
+    return;
+  }
+
+
+  boton.disabled = true;
+  boton.textContent =
+    "INGRESANDO...";
+
+
+  try{
+
+    const dispositivo =
+      obtenerDispositivo();
+
+
+    const data =
+      await apiPost({
+
+        accion:"login",
+
+        idVendedor:id,
+
+        pin:pin,
+
+        dispositivo:
+          dispositivo
+      });
+
+
+    sesion = {
+
+      idVendedor:
+        data.idVendedor,
+
+      nombre:
+        data.nombre,
+
+      idTurno:
+        data.idTurno,
+
+      dispositivo:
+        dispositivo
+    };
+
+
+    sessionStorage.setItem(
+      "barra_sesion",
+      JSON.stringify(sesion)
+    );
+
+
+    document
+      .getElementById(
+        "nombreVendedor"
+      )
+      .textContent =
+        data.nombre;
+
+
+    document
+      .getElementById("login")
+      .classList.add("oculto");
+
+
+    document
+      .getElementById("venta")
+      .classList.remove("oculto");
+
+
+    await cargarProductos();
+
+
+  }catch(e){
+
+    mensaje.innerHTML =
+      '<div class="error">'+
+      esc(e.message)+
+      '</div>';
+
+  }finally{
+
+    boton.disabled = false;
+
+    boton.textContent =
+      "INICIAR TURNO";
+  }
+}
+
+
+// ============================================================
+// PRODUCTOS
+// ============================================================
+
+async function cargarProductos(){
+
+  const contenedor =
+    document.getElementById(
+      "listaProductos"
+    );
+
+
+  contenedor.innerHTML =
+    '<div class="cargando">'+
+    'Cargando productos...'+
+    '</div>';
+
+
+  try{
+
+    const data =
+      await apiGet(
+        "productos"
+      );
+
+
+    productos =
+      data.productos || [];
+
+
+    carrito = {};
+
+
+    renderProductos();
+
+    renderCarrito();
+
+    seleccionarPago(
+      "EFECTIVO"
+    );
+
+
+  }catch(e){
+
+    contenedor.innerHTML =
+      '<div class="error">'+
+      esc(e.message)+
+      '</div>';
+  }
+}
+
+
+function renderProductos(){
+
+  const contenedor =
+    document.getElementById(
+      "listaProductos"
+    );
+
+
+  contenedor.innerHTML = "";
+
+
+  if(productos.length===0){
+
+    contenedor.innerHTML =
+      '<div class="error">'+
+      'No hay productos disponibles.'+
+      '</div>';
+
+    return;
+  }
+
+
+  productos.forEach(p=>{
+
+    carrito[p.codigo] =
+      carrito[p.codigo] || 0;
+
+
+    const cantidad =
+      carrito[p.codigo];
+
+
+    const div =
+      document.createElement(
+        "div"
+      );
+
+
+    div.className =
+      "producto";
+
+
+    let promo = "";
+
+
+    if(
+      p.promoActiva &&
+      p.promoCantidad > 0
+    ){
+
+      promo =
+        '<div class="promo">'+
+        'PROMO '+
+        p.promoCantidad+
+        ' × '+
+        dinero(p.promoPrecio)+
+        '</div>';
+    }
+
+
+    div.innerHTML =
+
+      '<div class="productoTop">'+
+
+        '<div>'+
+          '<div class="nombreProducto">'+
+            esc(p.producto)+
+          '</div>'+
+          '<div class="categoria">'+
+            esc(p.categoria||"")+
+          '</div>'+
+        '</div>'+
+
+        '<div class="precio">'+
+          dinero(p.precio)+
+        '</div>'+
+
+      '</div>'+
+
+      promo+
+
+      '<div class="stock">'+
+        'Stock disponible: '+
+        Number(p.stockActual)+
+      '</div>'+
+
+      '<div class="controles">'+
+
+        '<button class="btnCantidad" '+
+        'onclick="cambiarCantidad(\''+
+        js(p.codigo)+
+        '\',-1)">−</button>'+
+
+        '<div class="cantidad">'+
+          cantidad+
+        '</div>'+
+
+        '<button class="btnCantidad btnMas" '+
+        'onclick="cambiarCantidad(\''+
+        js(p.codigo)+
+        '\',1)">+</button>'+
+
+      '</div>';
+
+
+    contenedor.appendChild(div);
+  });
+}
+
+
+// ============================================================
+// CANTIDADES
+// ============================================================
+
+function cambiarCantidad(
+  codigo,
+  cambio
+){
+
+  const producto =
+    productos.find(
+      p => p.codigo === codigo
+    );
+
+
+  if(!producto){
+    return;
+  }
+
+
+  let actual =
+    Number(
+      carrito[codigo] || 0
+    );
+
+
+  let nuevo =
+    actual + cambio;
+
+
+  if(nuevo < 0){
+    nuevo = 0;
+  }
+
+
+  if(
+    nuevo >
+    Number(producto.stockActual)
+  ){
+    alert(
+      "No hay más stock disponible."
+    );
+    return;
+  }
+
+
+  carrito[codigo] =
+    nuevo;
+
+
+  renderProductos();
+
+  renderCarrito();
+
+  actualizarPago();
+}
+
+
+// ============================================================
+// CALCULAR PROMOCIÓN EN CELULAR
+// ============================================================
+
+function calcularImporte(
+  producto,
+  cantidad
+){
+
+  if(
+    !producto.promoActiva ||
+    !producto.promoCantidad ||
+    !producto.promoPrecio
+  ){
+
+    return (
+      cantidad *
+      producto.precio
+    );
+  }
+
+
+  const bloques =
+    Math.floor(
+      cantidad /
+      producto.promoCantidad
+    );
+
+
+  const sobrantes =
+    cantidad %
+    producto.promoCantidad;
+
+
+  return (
+    bloques *
+    producto.promoPrecio +
+
+    sobrantes *
+    producto.precio
+  );
+}
+
+
+// ============================================================
+// TOTAL
+// ============================================================
+
+function calcularTotal(){
+
+  let total = 0;
+
+
+  productos.forEach(p=>{
+
+    const cantidad =
+      Number(
+        carrito[p.codigo] || 0
+      );
+
+
+    total +=
+      calcularImporte(
+        p,
+        cantidad
+      );
+  });
+
+
+  return total;
+}
+
+
+// ============================================================
+// CARRITO
+// ============================================================
+
+function renderCarrito(){
+
+  const div =
+    document.getElementById(
+      "carritoVisual"
+    );
+
+
+  const seleccionados =
+    productos.filter(
+      p =>
+        Number(
+          carrito[p.codigo] || 0
+        ) > 0
+    );
+
+
+  if(
+    seleccionados.length === 0
+  ){
+
+    div.innerHTML =
+      '<div style="color:#777;font-size:14px">'+
+      'Todavía no agregaste bebidas.'+
+      '</div>';
+
+  }else{
+
+    div.innerHTML = "";
+
+
+    seleccionados.forEach(p=>{
+
+      const cantidad =
+        Number(
+          carrito[p.codigo]
+        );
+
+
+      const importe =
+        calcularImporte(
+          p,
+          cantidad
+        );
+
+
+      const linea =
+        document.createElement(
+          "div"
+        );
+
+
+      linea.className =
+        "lineaCarrito";
+
+
+      linea.innerHTML =
+
+        '<span>'+
+          cantidad+
+          ' × '+
+          esc(p.producto)+
+        '</span>'+
+
+        '<strong>'+
+          dinero(importe)+
+        '</strong>';
+
+
+      div.appendChild(
+        linea
+      );
+    });
+  }
+
+
+  document
+    .getElementById("total")
+    .textContent =
+      dinero(
+        calcularTotal()
+      );
+}
+
+
+// ============================================================
+// FORMAS DE PAGO
+// ============================================================
+
+function seleccionarPago(tipo){
+
+  metodoPago = tipo;
+
+
+  document
+    .querySelectorAll(
+      ".metodo"
+    )
+    .forEach(
+      b =>
+        b.classList.remove(
+          "activo"
+        )
+    );
+
+
+  const mapa = {
+
+    EFECTIVO:
+      "metodoEfectivo",
+
+    TRANSFERENCIA:
+      "metodoTransferencia",
+
+    COMBINADO:
+      "metodoCombinado"
+  };
+
+
+  document
+    .getElementById(
+      mapa[tipo]
+    )
+    .classList.add(
+      "activo"
+    );
+
+
+  actualizarPago();
+}
+
+
+function actualizarPago(){
+
+  const total =
+    calcularTotal();
+
+
+  const div =
+    document.getElementById(
+      "camposPago"
+    );
+
+
+  if(
+    metodoPago ===
+    "EFECTIVO"
+  ){
+
+    div.innerHTML =
+
+      '<div class="pagoFila">'+
+        '<span>Efectivo</span>'+
+        '<strong>'+
+          dinero(total)+
+        '</strong>'+
+      '</div>';
+
+  }
+
+
+  if(
+    metodoPago ===
+    "TRANSFERENCIA"
+  ){
+
+    div.innerHTML =
+
+      '<div class="pagoFila">'+
+        '<span>Transferencia / QR</span>'+
+        '<strong>'+
+          dinero(total)+
+        '</strong>'+
+      '</div>';
+  }
+
+
+  if(
+    metodoPago ===
+    "COMBINADO"
+  ){
+
+    div.innerHTML =
+
+      '<div class="pagoFila">'+
+        '<span>Efectivo</span>'+
+        '<input id="pagoEfectivo" '+
+        'type="number" min="0" '+
+        'placeholder="$0" '+
+        'oninput="validarPagoCombinado()">'+
+      '</div>'+
+
+      '<div class="pagoFila">'+
+        '<span>Transferencia</span>'+
+        '<input id="pagoTransferencia" '+
+        'type="number" min="0" '+
+        'placeholder="$0" '+
+        'oninput="validarPagoCombinado()">'+
+      '</div>';
+  }
+
+
+  validarPagoCombinado();
+}
+
+
+function validarPagoCombinado(){
+
+  const validacion =
+    document.getElementById(
+      "validacionPago"
+    );
+
+
+  if(
+    metodoPago !==
+    "COMBINADO"
+  ){
+
+    validacion.innerHTML = "";
+    return true;
+  }
+
+
+  const efectivo =
+    Number(
+      document.getElementById(
+        "pagoEfectivo"
+      )?.value || 0
+    );
+
+
+  const transferencia =
+    Number(
+      document.getElementById(
+        "pagoTransferencia"
+      )?.value || 0
+    );
+
+
+  const total =
+    calcularTotal();
+
+
+  const ingresado =
+    efectivo +
+    transferencia;
+
+
+  const diferencia =
+    total -
+    ingresado;
+
+
+  if(
+    Math.abs(diferencia) <
+    0.01
+  ){
+
+    validacion.innerHTML =
+      '<span class="valido">'+
+      '✓ Pago completo: '+
+      dinero(ingresado)+
+      '</span>';
+
+    return true;
+  }
+
+
+  if(diferencia > 0){
+
+    validacion.innerHTML =
+      '<span class="invalido">'+
+      'Faltan '+
+      dinero(diferencia)+
+      '</span>';
+
+  }else{
+
+    validacion.innerHTML =
+      '<span class="invalido">'+
+      'Sobran '+
+      dinero(
+        Math.abs(diferencia)
+      )+
+      '</span>';
+  }
+
+
+  return false;
+}
+
+
+// ============================================================
+// CONFIRMAR VENTA
+// ============================================================
+
+async function confirmarVenta(){
+
+  const mensaje =
+    document.getElementById(
+      "mensajeVenta"
+    );
+
+
+  const boton =
+    document.getElementById(
+      "btnConfirmar"
+    );
+
+
+  mensaje.innerHTML = "";
+
+
+  const total =
+    calcularTotal();
+
+
+  if(total <= 0){
+
+    mensaje.innerHTML =
+      '<div class="error">'+
+      'Agregá al menos una bebida.'+
+      '</div>';
+
+    return;
+  }
+
+
+  let efectivo = 0;
+  let transferencia = 0;
+
+
+  if(
+    metodoPago ===
+    "EFECTIVO"
+  ){
+
+    efectivo = total;
+  }
+
+
+  if(
+    metodoPago ===
+    "TRANSFERENCIA"
+  ){
+
+    transferencia =
+      total;
+  }
+
+
+  if(
+    metodoPago ===
+    "COMBINADO"
+  ){
+
+    efectivo =
+      Number(
+        document.getElementById(
+          "pagoEfectivo"
+        ).value || 0
+      );
+
+
+    transferencia =
+      Number(
+        document.getElementById(
+          "pagoTransferencia"
+        ).value || 0
+      );
+
+
+    if(
+      !validarPagoCombinado()
+    ){
+
+      mensaje.innerHTML =
+        '<div class="error">'+
+        'El pago combinado no coincide con el total.'+
+        '</div>';
+
+      return;
+    }
+  }
+
+
+  const carritoEnviar =
+    Object.keys(carrito)
+      .filter(
+        codigo =>
+          Number(
+            carrito[codigo]
+          ) > 0
+      )
+      .map(
+        codigo => ({
+          codigo:codigo,
+          cantidad:
+            Number(
+              carrito[codigo]
+            )
+        })
+      );
+
+
+  boton.disabled = true;
+
+  boton.textContent =
+    "REGISTRANDO VENTA...";
+
+
+  try{
+
+    const data =
+      await apiPost({
+
+        accion:"venta",
+
+        idVendedor:
+          sesion.idVendedor,
+
+        dispositivo:
+          sesion.dispositivo,
+
+        carrito:
+          carritoEnviar,
+
+        pagoEfectivo:
+          efectivo,
+
+        pagoTransferencia:
+          transferencia,
+
+        pagoOtro:0
+      });
+
+
+    document
+      .getElementById(
+        "pedidoFinal"
+      )
+      .textContent =
+        data.idPedido;
+
+
+    document
+      .getElementById(
+        "codigoFinal"
+      )
+      .textContent =
+        data.codigoRetiro;
+
+
+    document
+      .getElementById(
+        "totalFinal"
+      )
+      .textContent =
+        dinero(data.total);
+
+
+    document
+      .getElementById(
+        "venta"
+      )
+      .classList.add(
+        "oculto"
+      );
+
+
+    document
+      .getElementById(
+        "resultado"
+      )
+      .classList.remove(
+        "oculto"
+      );
+
+
+  }catch(e){
+
+    mensaje.innerHTML =
+      '<div class="error">'+
+      esc(e.message)+
+      '</div>';
+
+  }finally{
+
+    boton.disabled = false;
+
+    boton.textContent =
+      "CONFIRMAR VENTA";
+  }
+}
+
+
+// ============================================================
+// NUEVA VENTA
+// ============================================================
+
+async function nuevaVenta(){
+
+  carrito = {};
+
+
+  document
+    .getElementById(
+      "resultado"
+    )
+    .classList.add(
+      "oculto"
+    );
+
+
+  document
+    .getElementById(
+      "venta"
+    )
+    .classList.remove(
+      "oculto"
+    );
+
+
+  await cargarProductos();
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+// ============================================================
+// UTILIDADES
+// ============================================================
+
+function dinero(numero){
+
+  return new Intl.NumberFormat(
+    "es-AR",
+    {
+      style:"currency",
+      currency:"ARS",
+      maximumFractionDigits:0
+    }
+  ).format(
+    Number(numero)||0
+  );
+}
+
+
+function esc(s){
+
+  return String(
+    s == null ? "" : s
+  )
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+
+function js(s){
+
+  return String(s)
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'");
+}
+
+
+// ============================================================
+// RECUPERAR SESIÓN SI ACTUALIZA LA PÁGINA
+// ============================================================
+
+window.addEventListener(
+  "DOMContentLoaded",
+  async function(){
+
+    try{
+
+      const guardada =
+        sessionStorage.getItem(
+          "barra_sesion"
+        );
+
+
+      if(!guardada){
+        return;
+      }
+
+
+      const anterior =
+        JSON.parse(
+          guardada
+        );
+
+
+      if(
+        !anterior.idVendedor ||
+        !anterior.dispositivo
+      ){
+        return;
+      }
+
+
+      const estado =
+        await apiGet(
+          "turno",
+          {
+            idVendedor:
+              anterior.idVendedor,
+
+            dispositivo:
+              anterior.dispositivo
+          }
+        );
+
+
+      if(
+        estado.turnoActivo
+      ){
+
+        sesion =
+          anterior;
+
+
+        document
+          .getElementById(
+            "nombreVendedor"
+          )
+          .textContent =
+            anterior.nombre;
+
+
+        document
+          .getElementById(
+            "login"
+          )
+          .classList.add(
+            "oculto"
+          );
+
+
+        document
+          .getElementById(
+            "venta"
+          )
+          .classList.remove(
+            "oculto"
+          );
+
+
+        await cargarProductos();
+      }
+
+    }catch(e){
+
+      sessionStorage.removeItem(
+        "barra_sesion"
+      );
+    }
+  }
+);
+
+</script>
+
+</body>
+</html>
