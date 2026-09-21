@@ -1544,7 +1544,10 @@ async function confirmarVenta(){
 function mostrarTicket(data,reimpresion=false){
 
   const sub=document.getElementById("ticketSubFinal");
-  if(sub) sub.textContent=reimpresion?"REIMPRESIÓN · TICKET DIGITAL":"TICKET DIGITAL";
+  if(sub) {
+    if(reimpresion && data.anulada) sub.textContent="⚠️ TICKET ANULADO · REIMPRESIÓN";
+    else sub.textContent=reimpresion?"REIMPRESIÓN · TICKET DIGITAL":"TICKET DIGITAL";
+  }
 
   document.getElementById("pedidoFinal").textContent=data.idPedido;
 
@@ -1695,7 +1698,7 @@ async function reimprimirUltimoTicket(){
     });
 
     if(!data.existe){
-      alert("No hay una venta pagada para reimprimir en este turno.");
+      alert("No hay operaciones para reimprimir en este turno.");
       return;
     }
 
@@ -1723,7 +1726,12 @@ async function anularUltimaVenta(){
   }catch(e){ alert(e.message||String(e)); return; }
 
   if(!ultima.existe){
-    alert("No hay una venta pagada para anular en este turno.");
+    alert("No hay operaciones para anular en este turno.");
+    return;
+  }
+
+  if(ultima.anulada){
+    alert("LA ÚLTIMA OPERACIÓN "+ultima.idPedido+" YA FUE ANULADA.\n\nNo se anulará ninguna venta anterior.");
     return;
   }
 
