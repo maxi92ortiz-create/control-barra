@@ -8,9 +8,7 @@
 <title>Control Barra</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 html,body{
   margin:0;
@@ -20,9 +18,7 @@ html,body{
   font-family:Arial,sans-serif;
 }
 
-body{
-  padding:18px 14px 100px;
-}
+body{padding:18px 14px 100px}
 
 .app{
   width:100%;
@@ -30,31 +26,12 @@ body{
   margin:auto;
 }
 
-.oculto{
-  display:none !important;
-}
+.oculto{display:none!important}
 
-.logo{
-  text-align:center;
-  margin:15px 0 25px;
-}
-
-.logo .mini{
-  color:#999;
-  font-size:12px;
-  letter-spacing:3px;
-}
-
-.logo h1{
-  margin:6px 0 0;
-  font-size:31px;
-  color:#f04fa5;
-}
-
-.logo p{
-  margin:6px 0;
-  color:#aaa;
-}
+.logo{text-align:center;margin:15px 0 25px}
+.logo .mini{color:#999;font-size:12px;letter-spacing:3px}
+.logo h1{margin:6px 0 0;font-size:31px;color:#f04fa5}
+.logo p{margin:6px 0;color:#aaa}
 
 .panel{
   background:#17171b;
@@ -83,9 +60,7 @@ input{
   margin-bottom:15px;
 }
 
-input:focus{
-  border-color:#f04fa5;
-}
+input:focus{border-color:#f04fa5}
 
 button{
   border:0;
@@ -94,17 +69,17 @@ button{
   font-size:16px;
 }
 
-.btnPrincipal{
+button:disabled{
+  opacity:.5;
+  cursor:wait;
+}
+
+.btnPrincipal,.confirmar{
   width:100%;
   background:#f04fa5;
   color:white;
   padding:17px;
   border-radius:11px;
-}
-
-button:disabled{
-  opacity:.5;
-  cursor:wait;
 }
 
 .error{
@@ -113,7 +88,7 @@ button:disabled{
   border-radius:10px;
   padding:13px;
   margin-top:14px;
-  line-height:1.4;
+  white-space:pre-line;
 }
 
 .ok{
@@ -132,16 +107,8 @@ button:disabled{
   margin-bottom:18px;
 }
 
-.vendedor{
-  font-size:14px;
-  color:#aaa;
-}
-
-.vendedor strong{
-  color:#fff;
-  display:block;
-  font-size:18px;
-}
+.vendedor{font-size:14px;color:#aaa}
+.vendedor strong{color:#fff;display:block;font-size:18px}
 
 .turno{
   background:#14331f;
@@ -173,17 +140,8 @@ button:disabled{
   align-items:flex-start;
 }
 
-.nombreProducto{
-  font-size:18px;
-  font-weight:bold;
-}
-
-.categoria{
-  font-size:11px;
-  color:#888;
-  margin-top:4px;
-  text-transform:uppercase;
-}
+.nombreProducto{font-size:18px;font-weight:bold}
+.categoria{font-size:11px;color:#888;margin-top:4px;text-transform:uppercase}
 
 .precio{
   font-size:20px;
@@ -203,11 +161,7 @@ button:disabled{
   font-weight:bold;
 }
 
-.stock{
-  color:#888;
-  font-size:12px;
-  margin-top:8px;
-}
+.stock{color:#888;font-size:12px;margin-top:8px}
 
 .controles{
   display:flex;
@@ -226,9 +180,7 @@ button:disabled{
   font-size:23px;
 }
 
-.btnMas{
-  background:#f04fa5;
-}
+.btnMas{background:#f04fa5}
 
 .cantidad{
   min-width:30px;
@@ -254,10 +206,6 @@ button:disabled{
   font-size:14px;
 }
 
-.lineaCarrito:last-child{
-  border-bottom:0;
-}
-
 .totalBox{
   display:flex;
   justify-content:space-between;
@@ -265,11 +213,6 @@ button:disabled{
   margin-top:17px;
   padding-top:15px;
   border-top:2px solid #333;
-}
-
-.totalTexto{
-  font-size:17px;
-  font-weight:bold;
 }
 
 .totalNumero{
@@ -296,10 +239,16 @@ button:disabled{
 .metodo.activo{
   background:#f04fa5;
   color:#fff;
+  box-shadow:0 0 0 2px #fff inset;
 }
 
-.camposPago{
-  margin-top:15px;
+.avisoPago{
+  background:#24242a;
+  border-left:4px solid #f04fa5;
+  padding:12px;
+  border-radius:8px;
+  margin:15px 0;
+  font-size:14px;
 }
 
 .pagoFila{
@@ -310,10 +259,6 @@ button:disabled{
   gap:10px;
 }
 
-.pagoFila span{
-  font-size:14px;
-}
-
 .pagoFila input{
   width:150px;
   margin:0;
@@ -321,80 +266,147 @@ button:disabled{
   text-align:right;
 }
 
-.validacionPago{
-  font-size:12px;
-  margin:12px 0;
-  color:#aaa;
+.validacionPago{font-size:12px;margin:12px 0;color:#aaa}
+.valido{color:#69dc8d}
+.invalido{color:#ff8585}
+
+.confirmar{margin-top:15px}
+
+/* TICKET */
+
+.ticket{
+  background:#fff;
+  color:#111;
+  border-radius:18px;
+  padding:22px 18px;
 }
 
-.valido{
-  color:#69dc8d;
-}
-
-.invalido{
-  color:#ff8585;
-}
-
-.confirmar{
-  margin-top:15px;
-  width:100%;
-  background:#f04fa5;
-  color:#fff;
-  border-radius:11px;
-  padding:18px;
-  font-size:17px;
-}
-
-.ticketFinal{
+.ticketMarca{
   text-align:center;
+  font-size:25px;
+  font-weight:900;
 }
 
-.ticketFinal h2{
-  color:#70df91;
+.ticketSub{
+  text-align:center;
+  color:#666;
+  font-size:12px;
+  letter-spacing:2px;
+  margin-top:3px;
 }
 
-.numeroPedido{
-  color:#aaa;
-  margin-top:15px;
+.ventaOK{
+  text-align:center;
+  color:#13883c;
+  font-weight:bold;
+  font-size:18px;
+  margin:20px 0 8px;
+}
+
+.pedidoGrande{
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.fechaTicket{
+  text-align:center;
+  color:#555;
+  font-size:14px;
+  margin:7px 0 20px;
+}
+
+.ticketLinea{
+  border-top:1px dashed #aaa;
+  margin:15px 0;
+}
+
+.ticketDato{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin:7px 0;
+  font-size:14px;
+}
+
+.ticketProducto{
+  padding:10px 0;
+  border-bottom:1px solid #ddd;
+}
+
+.ticketProductoTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-weight:bold;
+}
+
+.ticketPromo{
+  color:#b06c00;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.ticketTotal{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:25px;
+  font-weight:900;
+  margin:18px 0;
+}
+
+.pagoTitulo{
+  font-weight:bold;
+  margin-bottom:8px;
 }
 
 .codigoRetiro{
-  background:#0c0c0e;
-  border:2px dashed #f04fa5;
+  text-align:center;
+  background:#111;
   color:#f04fa5;
-  padding:18px 8px;
-  border-radius:12px;
-  font-size:23px;
+  border-radius:10px;
+  padding:15px 8px;
+  font-size:20px;
   font-weight:bold;
-  margin:15px 0;
   word-break:break-all;
+  margin-top:10px;
 }
 
-.totalFinal{
-  font-size:28px;
-  font-weight:bold;
-  margin:15px 0;
+.qrWrap{
+  text-align:center;
+  margin:20px 0 10px;
+}
+
+#qrRetiro{
+  width:220px;
+  height:220px;
+  background:white;
+  padding:8px;
+  border:1px solid #ddd;
+}
+
+.leyendaRetiro{
+  text-align:center;
+  color:#666;
+  font-size:12px;
+  line-height:1.4;
+  margin-top:10px;
 }
 
 .nuevaVenta{
   width:100%;
   padding:17px;
   border-radius:10px;
-  background:#fff;
-  color:#111;
-  margin-top:15px;
+  background:#f04fa5;
+  color:#fff;
+  margin-top:18px;
 }
 
-.cargando{
-  text-align:center;
-  color:#aaa;
-  padding:25px;
-}
+.cargando{text-align:center;color:#aaa;padding:25px}
 
 @media(max-width:400px){
-  .metodos{
-    grid-template-columns:1fr;
-  }
+  .metodos{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -403,240 +415,188 @@ button:disabled{
 
 <div class="app">
 
-  <!-- LOGIN -->
-  <section id="login">
+<section id="login">
 
-    <div class="logo">
-      <div class="mini">SISTEMA DE VENTAS</div>
-      <h1>CONTROL BARRA</h1>
-      <p>Acceso de vendedores</p>
+  <div class="logo">
+    <div class="mini">SISTEMA DE VENTAS</div>
+    <h1>CONTROL BARRA</h1>
+    <p>Acceso de vendedores</p>
+  </div>
+
+  <div class="panel">
+
+    <label>ID VENDEDOR</label>
+    <input id="idVendedor" type="text" placeholder="Ej: V001">
+
+    <label>PIN</label>
+    <input id="pin" type="password" inputmode="numeric" placeholder="••••">
+
+    <button id="btnLogin" class="btnPrincipal" onclick="iniciarSesion()">
+      INICIAR TURNO
+    </button>
+
+    <div id="mensajeLogin"></div>
+
+  </div>
+
+</section>
+
+
+<section id="venta" class="oculto">
+
+  <div class="cabeceraVenta">
+
+    <div class="vendedor">
+      VENDEDOR
+      <strong id="nombreVendedor"></strong>
     </div>
 
-    <div class="panel">
+    <div class="turno">TURNO ABIERTO</div>
 
-      <label>ID VENDEDOR</label>
-      <input
-        id="idVendedor"
-        type="text"
-        placeholder="Ej: V001"
-        autocomplete="username"
-      >
+  </div>
 
-      <label>PIN</label>
-      <input
-        id="pin"
-        type="password"
-        inputmode="numeric"
-        placeholder="••••"
-        autocomplete="current-password"
-      >
+  <div class="titulo">Seleccionar bebidas</div>
 
-      <button
-        id="btnLogin"
-        class="btnPrincipal"
-        onclick="iniciarSesion()"
-      >
-        INICIAR TURNO
+  <div id="listaProductos">
+    <div class="cargando">Cargando productos...</div>
+  </div>
+
+  <div class="resumen">
+
+    <div class="titulo" style="margin-top:0">Pedido</div>
+
+    <div id="carritoVisual"></div>
+
+    <div class="totalBox">
+      <strong>TOTAL</strong>
+      <div id="total" class="totalNumero">$0</div>
+    </div>
+
+    <div class="titulo">Forma de pago</div>
+
+    <div class="avisoPago">
+      Seleccioná cómo paga el cliente antes de confirmar.
+    </div>
+
+    <div class="metodos">
+
+      <button id="metodoEfectivo" class="metodo"
+              onclick="seleccionarPago('EFECTIVO')">
+        EFECTIVO
       </button>
 
-      <div id="mensajeLogin"></div>
-
-    </div>
-
-  </section>
-
-
-  <!-- VENTA -->
-  <section id="venta" class="oculto">
-
-    <div class="cabeceraVenta">
-
-      <div class="vendedor">
-        VENDEDOR
-        <strong id="nombreVendedor"></strong>
-      </div>
-
-      <div class="turno">
-        TURNO ABIERTO
-      </div>
-
-    </div>
-
-
-    <div class="titulo">
-      Seleccionar bebidas
-    </div>
-
-
-    <div id="listaProductos">
-      <div class="cargando">
-        Cargando productos...
-      </div>
-    </div>
-
-
-    <div class="resumen">
-
-      <div class="titulo" style="margin-top:0">
-        Pedido
-      </div>
-
-      <div id="carritoVisual">
-        <div style="color:#777;font-size:14px">
-          Todavía no agregaste bebidas.
-        </div>
-      </div>
-
-
-      <div class="totalBox">
-
-        <div class="totalTexto">
-          TOTAL
-        </div>
-
-        <div
-          id="total"
-          class="totalNumero"
-        >
-          $0
-        </div>
-
-      </div>
-
-
-      <div class="titulo">
-        Forma de pago
-      </div>
-
-
-      <div class="metodos">
-
-        <button
-          class="metodo activo"
-          id="metodoEfectivo"
-          onclick="seleccionarPago('EFECTIVO')"
-        >
-          EFECTIVO
-        </button>
-
-        <button
-          class="metodo"
-          id="metodoTransferencia"
-          onclick="seleccionarPago('TRANSFERENCIA')"
-        >
-          TRANSFERENCIA
-        </button>
-
-        <button
-          class="metodo"
-          id="metodoCombinado"
-          onclick="seleccionarPago('COMBINADO')"
-        >
-          COMBINADO
-        </button>
-
-      </div>
-
-
-      <div
-        id="camposPago"
-        class="camposPago"
-      ></div>
-
-
-      <div
-        id="validacionPago"
-        class="validacionPago"
-      ></div>
-
-
-      <button
-        id="btnConfirmar"
-        class="confirmar"
-        onclick="confirmarVenta()"
-      >
-        CONFIRMAR VENTA
+      <button id="metodoTransferencia" class="metodo"
+              onclick="seleccionarPago('TRANSFERENCIA')">
+        TRANSFERENCIA
       </button>
 
-
-      <div id="mensajeVenta"></div>
-
-    </div>
-
-  </section>
-
-
-  <!-- RESULTADO -->
-  <section
-    id="resultado"
-    class="oculto"
-  >
-
-    <div class="panel ticketFinal">
-
-      <h2>
-        ✓ VENTA REGISTRADA
-      </h2>
-
-      <div
-        id="pedidoFinal"
-        class="numeroPedido"
-      ></div>
-
-      <div style="margin-top:20px;color:#aaa">
-        CÓDIGO DE RETIRO
-      </div>
-
-      <div
-        id="codigoFinal"
-        class="codigoRetiro"
-      ></div>
-
-      <div
-        id="totalFinal"
-        class="totalFinal"
-      ></div>
-
-      <div style="color:#999;font-size:13px;line-height:1.5">
-        Este código se utilizará para retirar
-        las bebidas en la barra.
-      </div>
-
-      <button
-        class="nuevaVenta"
-        onclick="nuevaVenta()"
-      >
-        NUEVA VENTA
+      <button id="metodoCombinado" class="metodo"
+              onclick="seleccionarPago('COMBINADO')">
+        COMBINADO
       </button>
 
     </div>
 
-  </section>
+    <div id="camposPago" style="margin-top:15px"></div>
+    <div id="validacionPago" class="validacionPago"></div>
+
+    <button id="btnConfirmar"
+            class="confirmar"
+            onclick="confirmarVenta()">
+      CONFIRMAR VENTA
+    </button>
+
+    <div id="mensajeVenta"></div>
+
+  </div>
+
+</section>
+
+
+<section id="resultado" class="oculto">
+
+  <div class="ticket">
+
+    <div class="ticketMarca">CONTROL BARRA</div>
+    <div class="ticketSub">TICKET DIGITAL</div>
+
+    <div class="ventaOK">✓ VENTA REGISTRADA</div>
+
+    <div id="pedidoFinal" class="pedidoGrande"></div>
+    <div id="fechaFinal" class="fechaTicket"></div>
+
+    <div class="ticketLinea"></div>
+
+    <div class="ticketDato">
+      <span>Vendedor</span>
+      <strong id="vendedorFinal"></strong>
+    </div>
+
+    <div class="ticketLinea"></div>
+
+    <strong>DETALLE DEL PEDIDO</strong>
+
+    <div id="detalleFinal"></div>
+
+    <div class="ticketTotal">
+      <span>TOTAL</span>
+      <span id="totalFinal"></span>
+    </div>
+
+    <div class="ticketLinea"></div>
+
+    <div class="pagoTitulo">FORMA DE PAGO</div>
+    <div id="pagoFinal"></div>
+
+    <div class="ticketLinea"></div>
+
+    <div style="text-align:center;font-weight:bold">
+      CÓDIGO DE RETIRO
+    </div>
+
+    <div class="qrWrap">
+      <img id="qrRetiro" alt="QR de retiro">
+    </div>
+
+    <div id="codigoFinal" class="codigoRetiro"></div>
+
+    <div class="leyendaRetiro">
+      Presentar este QR en la barra.<br>
+      El personal debe escanearlo antes de entregar las bebidas.
+    </div>
+
+  </div>
+
+  <button class="nuevaVenta" onclick="nuevaVenta()">
+    NUEVA VENTA
+  </button>
+
+</section>
 
 </div>
 
 
 <script>
 
-// ============================================================
-// CONFIGURACIÓN
-// ============================================================
-
 const URL_APP =
 "https://script.google.com/macros/s/AKfycbwc6g41NWrO6CGlWnIozOWFrX0zl9TGaPnLuvIjJXzNyXC7rGUgLkXWLInUqRdqmLrG/exec";
 
+let productos=[];
+let carrito={};
 
-let productos = [];
-let carrito = {};
-
-let sesion = {
+let sesion={
   idVendedor:"",
   nombre:"",
   idTurno:"",
   dispositivo:""
 };
 
-let metodoPago = "EFECTIVO";
+/*
+  IMPORTANTE:
+  ahora NO dejamos EFECTIVO seleccionado automáticamente.
+  El vendedor tiene que elegir conscientemente el medio de pago.
+*/
+let metodoPago="";
 
 
 // ============================================================
@@ -645,31 +605,19 @@ let metodoPago = "EFECTIVO";
 
 function obtenerDispositivo(){
 
-  let id =
-    localStorage.getItem(
-      "barra_dispositivo"
-    );
+  let id=localStorage.getItem("barra_dispositivo");
 
   if(!id){
 
-    const bytes =
-      new Uint8Array(16);
-
+    const bytes=new Uint8Array(16);
     crypto.getRandomValues(bytes);
 
-    id =
-      "DEV-" +
-      Array.from(
-        bytes,
-        b =>
-          b.toString(16)
-           .padStart(2,"0")
-      ).join("");
+    id="DEV-"+Array.from(
+      bytes,
+      b=>b.toString(16).padStart(2,"0")
+    ).join("");
 
-    localStorage.setItem(
-      "barra_dispositivo",
-      id
-    );
+    localStorage.setItem("barra_dispositivo",id);
   }
 
   return id;
@@ -682,36 +630,26 @@ function obtenerDispositivo(){
 
 async function apiPost(data){
 
-  const respuesta =
-    await fetch(
-      URL_APP,
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"text/plain;charset=utf-8"
-        },
-        body:JSON.stringify(data)
-      }
-    );
+  const r=await fetch(URL_APP,{
+    method:"POST",
+    headers:{
+      "Content-Type":"text/plain;charset=utf-8"
+    },
+    body:JSON.stringify(data)
+  });
 
-  const texto =
-    await respuesta.text();
+  const texto=await r.text();
 
   let json;
 
   try{
-    json = JSON.parse(texto);
+    json=JSON.parse(texto);
   }catch(e){
-    throw new Error(
-      "El servidor respondió incorrectamente."
-    );
+    throw new Error("El servidor respondió incorrectamente.");
   }
 
   if(!json.ok){
-    throw new Error(
-      json.error ||
-      "Error del servidor."
-    );
+    throw new Error(json.error||json.mensaje||"Error del servidor.");
   }
 
   return json;
@@ -720,38 +658,21 @@ async function apiPost(data){
 
 async function apiGet(accion,parametros={}){
 
-  const url =
-    new URL(URL_APP);
+  const url=new URL(URL_APP);
 
-  url.searchParams.set(
-    "accion",
-    accion
-  );
+  url.searchParams.set("accion",accion);
 
-  Object.keys(parametros)
-    .forEach(k=>{
-      url.searchParams.set(
-        k,
-        parametros[k]
-      );
-    });
+  Object.keys(parametros).forEach(k=>{
+    url.searchParams.set(k,parametros[k]);
+  });
 
-  url.searchParams.set(
-    "_",
-    Date.now()
-  );
+  url.searchParams.set("_",Date.now());
 
-  const respuesta =
-    await fetch(url);
-
-  const json =
-    await respuesta.json();
+  const r=await fetch(url);
+  const json=await r.json();
 
   if(!json.ok){
-    throw new Error(
-      json.error ||
-      "Error del servidor."
-    );
+    throw new Error(json.error||"Error del servidor.");
   }
 
   return json;
@@ -764,123 +685,63 @@ async function apiGet(accion,parametros={}){
 
 async function iniciarSesion(){
 
-  const id =
-    document
-      .getElementById("idVendedor")
-      .value
-      .trim()
-      .toUpperCase();
+  const id=document.getElementById("idVendedor")
+    .value.trim().toUpperCase();
 
-  const pin =
-    document
-      .getElementById("pin")
-      .value
-      .trim();
+  const pin=document.getElementById("pin").value.trim();
 
-  const mensaje =
-    document
-      .getElementById("mensajeLogin");
+  const mensaje=document.getElementById("mensajeLogin");
+  const boton=document.getElementById("btnLogin");
 
-  const boton =
-    document
-      .getElementById("btnLogin");
+  mensaje.innerHTML="";
 
-
-  mensaje.innerHTML = "";
-
-
-  if(!id || !pin){
-
-    mensaje.innerHTML =
-      '<div class="error">'+
-      'Ingresá vendedor y PIN.'+
-      '</div>';
-
+  if(!id||!pin){
+    mensaje.innerHTML='<div class="error">Ingresá vendedor y PIN.</div>';
     return;
   }
 
-
-  boton.disabled = true;
-  boton.textContent =
-    "INGRESANDO...";
-
+  boton.disabled=true;
+  boton.textContent="INGRESANDO...";
 
   try{
 
-    const dispositivo =
-      obtenerDispositivo();
+    const dispositivo=obtenerDispositivo();
 
+    const data=await apiPost({
+      accion:"login",
+      idVendedor:id,
+      pin:pin,
+      dispositivo:dispositivo
+    });
 
-    const data =
-      await apiPost({
-
-        accion:"login",
-
-        idVendedor:id,
-
-        pin:pin,
-
-        dispositivo:
-          dispositivo
-      });
-
-
-    sesion = {
-
-      idVendedor:
-        data.idVendedor,
-
-      nombre:
-        data.nombre,
-
-      idTurno:
-        data.idTurno,
-
-      dispositivo:
-        dispositivo
+    sesion={
+      idVendedor:data.idVendedor,
+      nombre:data.nombre,
+      idTurno:data.idTurno,
+      dispositivo:dispositivo
     };
-
 
     sessionStorage.setItem(
       "barra_sesion",
       JSON.stringify(sesion)
     );
 
+    document.getElementById("nombreVendedor").textContent=data.nombre;
 
-    document
-      .getElementById(
-        "nombreVendedor"
-      )
-      .textContent =
-        data.nombre;
-
-
-    document
-      .getElementById("login")
-      .classList.add("oculto");
-
-
-    document
-      .getElementById("venta")
-      .classList.remove("oculto");
-
+    document.getElementById("login").classList.add("oculto");
+    document.getElementById("venta").classList.remove("oculto");
 
     await cargarProductos();
 
-
   }catch(e){
 
-    mensaje.innerHTML =
-      '<div class="error">'+
-      esc(e.message)+
-      '</div>';
+    mensaje.innerHTML=
+      '<div class="error">'+esc(e.message)+'</div>';
 
   }finally{
 
-    boton.disabled = false;
-
-    boton.textContent =
-      "INICIAR TURNO";
+    boton.disabled=false;
+    boton.textContent="INICIAR TURNO";
   }
 }
 
@@ -891,156 +752,95 @@ async function iniciarSesion(){
 
 async function cargarProductos(){
 
-  const contenedor =
-    document.getElementById(
-      "listaProductos"
-    );
+  const contenedor=document.getElementById("listaProductos");
 
-
-  contenedor.innerHTML =
-    '<div class="cargando">'+
-    'Cargando productos...'+
-    '</div>';
-
+  contenedor.innerHTML=
+    '<div class="cargando">Cargando productos...</div>';
 
   try{
 
-    const data =
-      await apiGet(
-        "productos"
-      );
+    const data=await apiGet("productos");
 
+    productos=data.productos||[];
+    carrito={};
 
-    productos =
-      data.productos || [];
+    productos.forEach(p=>{
+      carrito[p.codigo]=0;
+    });
 
-
-    carrito = {};
-
+    metodoPago="";
 
     renderProductos();
-
     renderCarrito();
-
-    seleccionarPago(
-      "EFECTIVO"
-    );
-
+    limpiarPago();
 
   }catch(e){
 
-    contenedor.innerHTML =
-      '<div class="error">'+
-      esc(e.message)+
-      '</div>';
+    contenedor.innerHTML=
+      '<div class="error">'+esc(e.message)+'</div>';
   }
 }
 
 
 function renderProductos(){
 
-  const contenedor =
-    document.getElementById(
-      "listaProductos"
-    );
+  const contenedor=document.getElementById("listaProductos");
+  contenedor.innerHTML="";
 
+  if(!productos.length){
 
-  contenedor.innerHTML = "";
-
-
-  if(productos.length===0){
-
-    contenedor.innerHTML =
-      '<div class="error">'+
-      'No hay productos disponibles.'+
-      '</div>';
+    contenedor.innerHTML=
+      '<div class="error">No hay productos disponibles.</div>';
 
     return;
   }
 
-
   productos.forEach(p=>{
 
-    carrito[p.codigo] =
-      carrito[p.codigo] || 0;
+    const cantidad=Number(carrito[p.codigo]||0);
 
+    const div=document.createElement("div");
+    div.className="producto";
 
-    const cantidad =
-      carrito[p.codigo];
+    let promo="";
 
+    if(p.promoActiva&&p.promoCantidad>0&&p.promoPrecio>0){
 
-    const div =
-      document.createElement(
-        "div"
-      );
-
-
-    div.className =
-      "producto";
-
-
-    let promo = "";
-
-
-    if(
-      p.promoActiva &&
-      p.promoCantidad > 0
-    ){
-
-      promo =
+      promo=
         '<div class="promo">'+
-        'PROMO '+
-        p.promoCantidad+
-        ' × '+
-        dinero(p.promoPrecio)+
+        'PROMO '+p.promoCantidad+' × '+dinero(p.promoPrecio)+
         '</div>';
     }
 
-
-    div.innerHTML =
+    div.innerHTML=
 
       '<div class="productoTop">'+
 
         '<div>'+
-          '<div class="nombreProducto">'+
-            esc(p.producto)+
-          '</div>'+
-          '<div class="categoria">'+
-            esc(p.categoria||"")+
-          '</div>'+
+          '<div class="nombreProducto">'+esc(p.producto)+'</div>'+
+          '<div class="categoria">'+esc(p.categoria||"")+'</div>'+
         '</div>'+
 
-        '<div class="precio">'+
-          dinero(p.precio)+
-        '</div>'+
+        '<div class="precio">'+dinero(p.precio)+'</div>'+
 
       '</div>'+
 
       promo+
 
-      '<div class="stock">'+
-        'Stock disponible: '+
-        Number(p.stockActual)+
-      '</div>'+
+      '<div class="stock">Stock disponible: '+
+      Number(p.stockActual)+'</div>'+
 
       '<div class="controles">'+
 
-        '<button class="btnCantidad" '+
-        'onclick="cambiarCantidad(\''+
-        js(p.codigo)+
-        '\',-1)">−</button>'+
+        '<button class="btnCantidad" onclick="cambiarCantidad(\''+
+        js(p.codigo)+'\',-1)">−</button>'+
 
-        '<div class="cantidad">'+
-          cantidad+
-        '</div>'+
+        '<div class="cantidad">'+cantidad+'</div>'+
 
-        '<button class="btnCantidad btnMas" '+
-        'onclick="cambiarCantidad(\''+
-        js(p.codigo)+
-        '\',1)">+</button>'+
+        '<button class="btnCantidad btnMas" onclick="cambiarCantidad(\''+
+        js(p.codigo)+'\',1)">+</button>'+
 
       '</div>';
-
 
     contenedor.appendChild(div);
   });
@@ -1051,128 +851,65 @@ function renderProductos(){
 // CANTIDADES
 // ============================================================
 
-function cambiarCantidad(
-  codigo,
-  cambio
-){
+function cambiarCantidad(codigo,cambio){
 
-  const producto =
-    productos.find(
-      p => p.codigo === codigo
-    );
+  const p=productos.find(x=>String(x.codigo)===String(codigo));
 
+  if(!p)return;
 
-  if(!producto){
+  let nuevo=Number(carrito[codigo]||0)+cambio;
+
+  if(nuevo<0)nuevo=0;
+
+  if(nuevo>Number(p.stockActual)){
+
+    alert("No hay más stock disponible.");
     return;
   }
 
-
-  let actual =
-    Number(
-      carrito[codigo] || 0
-    );
-
-
-  let nuevo =
-    actual + cambio;
-
-
-  if(nuevo < 0){
-    nuevo = 0;
-  }
-
-
-  if(
-    nuevo >
-    Number(producto.stockActual)
-  ){
-    alert(
-      "No hay más stock disponible."
-    );
-    return;
-  }
-
-
-  carrito[codigo] =
-    nuevo;
-
+  carrito[codigo]=nuevo;
 
   renderProductos();
-
   renderCarrito();
-
   actualizarPago();
 }
 
 
 // ============================================================
-// CALCULAR PROMOCIÓN EN CELULAR
+// PRECIOS / PROMOS
 // ============================================================
 
-function calcularImporte(
-  producto,
-  cantidad
-){
+function calcularImporte(p,cantidad){
 
   if(
-    !producto.promoActiva ||
-    !producto.promoCantidad ||
-    !producto.promoPrecio
+    !p.promoActiva ||
+    !p.promoCantidad ||
+    !p.promoPrecio
   ){
-
-    return (
-      cantidad *
-      producto.precio
-    );
+    return cantidad*Number(p.precio);
   }
 
-
-  const bloques =
-    Math.floor(
-      cantidad /
-      producto.promoCantidad
-    );
-
-
-  const sobrantes =
-    cantidad %
-    producto.promoCantidad;
-
+  const bloques=Math.floor(cantidad/p.promoCantidad);
+  const sobrantes=cantidad%p.promoCantidad;
 
   return (
-    bloques *
-    producto.promoPrecio +
-
-    sobrantes *
-    producto.precio
+    bloques*Number(p.promoPrecio)+
+    sobrantes*Number(p.precio)
   );
 }
 
 
-// ============================================================
-// TOTAL
-// ============================================================
-
 function calcularTotal(){
 
-  let total = 0;
-
+  let total=0;
 
   productos.forEach(p=>{
 
-    const cantidad =
-      Number(
-        carrito[p.codigo] || 0
-      );
-
-
-    total +=
-      calcularImporte(
-        p,
-        cantidad
-      );
+    total+=calcularImporte(
+      p,
+      Number(carrito[p.codigo]||0)
+    );
   });
-
 
   return total;
 }
@@ -1184,131 +921,74 @@ function calcularTotal(){
 
 function renderCarrito(){
 
-  const div =
-    document.getElementById(
-      "carritoVisual"
-    );
+  const div=document.getElementById("carritoVisual");
 
+  const seleccionados=productos.filter(
+    p=>Number(carrito[p.codigo]||0)>0
+  );
 
-  const seleccionados =
-    productos.filter(
-      p =>
-        Number(
-          carrito[p.codigo] || 0
-        ) > 0
-    );
+  if(!seleccionados.length){
 
-
-  if(
-    seleccionados.length === 0
-  ){
-
-    div.innerHTML =
+    div.innerHTML=
       '<div style="color:#777;font-size:14px">'+
       'Todavía no agregaste bebidas.'+
       '</div>';
 
   }else{
 
-    div.innerHTML = "";
-
+    div.innerHTML="";
 
     seleccionados.forEach(p=>{
 
-      const cantidad =
-        Number(
-          carrito[p.codigo]
-        );
+      const cantidad=Number(carrito[p.codigo]);
+      const importe=calcularImporte(p,cantidad);
 
+      const linea=document.createElement("div");
+      linea.className="lineaCarrito";
 
-      const importe =
-        calcularImporte(
-          p,
-          cantidad
-        );
+      linea.innerHTML=
+        '<span>'+cantidad+' × '+esc(p.producto)+'</span>'+
+        '<strong>'+dinero(importe)+'</strong>';
 
-
-      const linea =
-        document.createElement(
-          "div"
-        );
-
-
-      linea.className =
-        "lineaCarrito";
-
-
-      linea.innerHTML =
-
-        '<span>'+
-          cantidad+
-          ' × '+
-          esc(p.producto)+
-        '</span>'+
-
-        '<strong>'+
-          dinero(importe)+
-        '</strong>';
-
-
-      div.appendChild(
-        linea
-      );
+      div.appendChild(linea);
     });
   }
 
-
-  document
-    .getElementById("total")
-    .textContent =
-      dinero(
-        calcularTotal()
-      );
+  document.getElementById("total").textContent=
+    dinero(calcularTotal());
 }
 
 
 // ============================================================
-// FORMAS DE PAGO
+// PAGO
 // ============================================================
+
+function limpiarPago(){
+
+  document.querySelectorAll(".metodo").forEach(
+    b=>b.classList.remove("activo")
+  );
+
+  document.getElementById("camposPago").innerHTML="";
+  document.getElementById("validacionPago").innerHTML="";
+}
+
 
 function seleccionarPago(tipo){
 
-  metodoPago = tipo;
+  metodoPago=tipo;
 
+  document.querySelectorAll(".metodo").forEach(
+    b=>b.classList.remove("activo")
+  );
 
-  document
-    .querySelectorAll(
-      ".metodo"
-    )
-    .forEach(
-      b =>
-        b.classList.remove(
-          "activo"
-        )
-    );
-
-
-  const mapa = {
-
-    EFECTIVO:
-      "metodoEfectivo",
-
-    TRANSFERENCIA:
-      "metodoTransferencia",
-
-    COMBINADO:
-      "metodoCombinado"
+  const ids={
+    EFECTIVO:"metodoEfectivo",
+    TRANSFERENCIA:"metodoTransferencia",
+    COMBINADO:"metodoCombinado"
   };
 
-
-  document
-    .getElementById(
-      mapa[tipo]
-    )
-    .classList.add(
-      "activo"
-    );
-
+  document.getElementById(ids[tipo]).classList.add("activo");
 
   actualizarPago();
 }
@@ -1316,73 +996,48 @@ function seleccionarPago(tipo){
 
 function actualizarPago(){
 
-  const total =
-    calcularTotal();
+  const total=calcularTotal();
+  const div=document.getElementById("camposPago");
 
-
-  const div =
-    document.getElementById(
-      "camposPago"
-    );
-
-
-  if(
-    metodoPago ===
-    "EFECTIVO"
-  ){
-
-    div.innerHTML =
-
-      '<div class="pagoFila">'+
-        '<span>Efectivo</span>'+
-        '<strong>'+
-          dinero(total)+
-        '</strong>'+
-      '</div>';
-
+  if(!metodoPago){
+    div.innerHTML="";
+    return;
   }
 
+  if(metodoPago==="EFECTIVO"){
 
-  if(
-    metodoPago ===
-    "TRANSFERENCIA"
-  ){
-
-    div.innerHTML =
-
+    div.innerHTML=
       '<div class="pagoFila">'+
-        '<span>Transferencia / QR</span>'+
-        '<strong>'+
-          dinero(total)+
-        '</strong>'+
+      '<span>Pago en efectivo</span>'+
+      '<strong>'+dinero(total)+'</strong>'+
       '</div>';
   }
 
+  if(metodoPago==="TRANSFERENCIA"){
 
-  if(
-    metodoPago ===
-    "COMBINADO"
-  ){
+    div.innerHTML=
+      '<div class="pagoFila">'+
+      '<span>Transferencia / QR</span>'+
+      '<strong>'+dinero(total)+'</strong>'+
+      '</div>';
+  }
 
-    div.innerHTML =
+  if(metodoPago==="COMBINADO"){
+
+    div.innerHTML=
 
       '<div class="pagoFila">'+
-        '<span>Efectivo</span>'+
-        '<input id="pagoEfectivo" '+
-        'type="number" min="0" '+
-        'placeholder="$0" '+
-        'oninput="validarPagoCombinado()">'+
+      '<span>Efectivo</span>'+
+      '<input id="pagoEfectivo" type="number" min="0" '+
+      'placeholder="$0" oninput="validarPagoCombinado()">'+
       '</div>'+
 
       '<div class="pagoFila">'+
-        '<span>Transferencia</span>'+
-        '<input id="pagoTransferencia" '+
-        'type="number" min="0" '+
-        'placeholder="$0" '+
-        'oninput="validarPagoCombinado()">'+
+      '<span>Transferencia</span>'+
+      '<input id="pagoTransferencia" type="number" min="0" '+
+      'placeholder="$0" oninput="validarPagoCombinado()">'+
       '</div>';
   }
-
 
   validarPagoCombinado();
 }
@@ -1390,86 +1045,47 @@ function actualizarPago(){
 
 function validarPagoCombinado(){
 
-  const validacion =
-    document.getElementById(
-      "validacionPago"
-    );
+  const validacion=document.getElementById("validacionPago");
 
+  if(metodoPago!=="COMBINADO"){
 
-  if(
-    metodoPago !==
-    "COMBINADO"
-  ){
-
-    validacion.innerHTML = "";
+    validacion.innerHTML="";
     return true;
   }
 
+  const efectivo=Number(
+    document.getElementById("pagoEfectivo")?.value||0
+  );
 
-  const efectivo =
-    Number(
-      document.getElementById(
-        "pagoEfectivo"
-      )?.value || 0
-    );
+  const transferencia=Number(
+    document.getElementById("pagoTransferencia")?.value||0
+  );
 
+  const total=calcularTotal();
+  const ingresado=efectivo+transferencia;
+  const diferencia=total-ingresado;
 
-  const transferencia =
-    Number(
-      document.getElementById(
-        "pagoTransferencia"
-      )?.value || 0
-    );
+  if(Math.abs(diferencia)<0.01){
 
-
-  const total =
-    calcularTotal();
-
-
-  const ingresado =
-    efectivo +
-    transferencia;
-
-
-  const diferencia =
-    total -
-    ingresado;
-
-
-  if(
-    Math.abs(diferencia) <
-    0.01
-  ){
-
-    validacion.innerHTML =
-      '<span class="valido">'+
-      '✓ Pago completo: '+
-      dinero(ingresado)+
-      '</span>';
+    validacion.innerHTML=
+      '<span class="valido">✓ Pago completo: '+
+      dinero(ingresado)+'</span>';
 
     return true;
   }
 
+  if(diferencia>0){
 
-  if(diferencia > 0){
-
-    validacion.innerHTML =
-      '<span class="invalido">'+
-      'Faltan '+
-      dinero(diferencia)+
-      '</span>';
+    validacion.innerHTML=
+      '<span class="invalido">Faltan '+
+      dinero(diferencia)+'</span>';
 
   }else{
 
-    validacion.innerHTML =
-      '<span class="invalido">'+
-      'Sobran '+
-      dinero(
-        Math.abs(diferencia)
-      )+
-      '</span>';
+    validacion.innerHTML=
+      '<span class="invalido">Sobran '+
+      dinero(Math.abs(diferencia))+'</span>';
   }
-
 
   return false;
 }
@@ -1481,85 +1097,53 @@ function validarPagoCombinado(){
 
 async function confirmarVenta(){
 
-  const mensaje =
-    document.getElementById(
-      "mensajeVenta"
-    );
+  const mensaje=document.getElementById("mensajeVenta");
+  const boton=document.getElementById("btnConfirmar");
 
+  mensaje.innerHTML="";
 
-  const boton =
-    document.getElementById(
-      "btnConfirmar"
-    );
+  const total=calcularTotal();
 
+  if(total<=0){
 
-  mensaje.innerHTML = "";
-
-
-  const total =
-    calcularTotal();
-
-
-  if(total <= 0){
-
-    mensaje.innerHTML =
-      '<div class="error">'+
-      'Agregá al menos una bebida.'+
-      '</div>';
+    mensaje.innerHTML=
+      '<div class="error">Agregá al menos una bebida.</div>';
 
     return;
   }
 
+  if(!metodoPago){
 
-  let efectivo = 0;
-  let transferencia = 0;
+    mensaje.innerHTML=
+      '<div class="error">SELECCIONÁ LA FORMA DE PAGO antes de confirmar.</div>';
 
-
-  if(
-    metodoPago ===
-    "EFECTIVO"
-  ){
-
-    efectivo = total;
+    return;
   }
 
+  let efectivo=0;
+  let transferencia=0;
 
-  if(
-    metodoPago ===
-    "TRANSFERENCIA"
-  ){
-
-    transferencia =
-      total;
+  if(metodoPago==="EFECTIVO"){
+    efectivo=total;
   }
 
+  if(metodoPago==="TRANSFERENCIA"){
+    transferencia=total;
+  }
 
-  if(
-    metodoPago ===
-    "COMBINADO"
-  ){
+  if(metodoPago==="COMBINADO"){
 
-    efectivo =
-      Number(
-        document.getElementById(
-          "pagoEfectivo"
-        ).value || 0
-      );
+    efectivo=Number(
+      document.getElementById("pagoEfectivo").value||0
+    );
 
+    transferencia=Number(
+      document.getElementById("pagoTransferencia").value||0
+    );
 
-    transferencia =
-      Number(
-        document.getElementById(
-          "pagoTransferencia"
-        ).value || 0
-      );
+    if(!validarPagoCombinado()){
 
-
-    if(
-      !validarPagoCombinado()
-    ){
-
-      mensaje.innerHTML =
+      mensaje.innerHTML=
         '<div class="error">'+
         'El pago combinado no coincide con el total.'+
         '</div>';
@@ -1568,114 +1152,171 @@ async function confirmarVenta(){
     }
   }
 
-
-  const carritoEnviar =
+  const carritoEnviar=
     Object.keys(carrito)
-      .filter(
-        codigo =>
-          Number(
-            carrito[codigo]
-          ) > 0
-      )
-      .map(
-        codigo => ({
-          codigo:codigo,
-          cantidad:
-            Number(
-              carrito[codigo]
-            )
-        })
-      );
+      .filter(codigo=>Number(carrito[codigo])>0)
+      .map(codigo=>({
+        codigo:codigo,
+        cantidad:Number(carrito[codigo])
+      }));
 
-
-  boton.disabled = true;
-
-  boton.textContent =
-    "REGISTRANDO VENTA...";
-
+  boton.disabled=true;
+  boton.textContent="REGISTRANDO VENTA...";
 
   try{
 
-    const data =
-      await apiPost({
+    const data=await apiPost({
 
-        accion:"venta",
+      accion:"venta",
 
-        idVendedor:
-          sesion.idVendedor,
+      idVendedor:sesion.idVendedor,
+      dispositivo:sesion.dispositivo,
 
-        dispositivo:
-          sesion.dispositivo,
+      carrito:carritoEnviar,
 
-        carrito:
-          carritoEnviar,
+      pagoEfectivo:efectivo,
+      pagoTransferencia:transferencia,
+      pagoOtro:0
+    });
 
-        pagoEfectivo:
-          efectivo,
-
-        pagoTransferencia:
-          transferencia,
-
-        pagoOtro:0
-      });
-
-
-    document
-      .getElementById(
-        "pedidoFinal"
-      )
-      .textContent =
-        data.idPedido;
-
-
-    document
-      .getElementById(
-        "codigoFinal"
-      )
-      .textContent =
-        data.codigoRetiro;
-
-
-    document
-      .getElementById(
-        "totalFinal"
-      )
-      .textContent =
-        dinero(data.total);
-
-
-    document
-      .getElementById(
-        "venta"
-      )
-      .classList.add(
-        "oculto"
-      );
-
-
-    document
-      .getElementById(
-        "resultado"
-      )
-      .classList.remove(
-        "oculto"
-      );
-
+    mostrarTicket(data);
 
   }catch(e){
 
-    mensaje.innerHTML =
-      '<div class="error">'+
-      esc(e.message)+
-      '</div>';
+    mensaje.innerHTML=
+      '<div class="error">'+esc(e.message)+'</div>';
 
   }finally{
 
-    boton.disabled = false;
-
-    boton.textContent =
-      "CONFIRMAR VENTA";
+    boton.disabled=false;
+    boton.textContent="CONFIRMAR VENTA";
   }
+}
+
+
+// ============================================================
+// TICKET DIGITAL
+// ============================================================
+
+function mostrarTicket(data){
+
+  document.getElementById("pedidoFinal").textContent=data.idPedido;
+
+  document.getElementById("fechaFinal").textContent=
+    formatearFecha(data.fechaVenta);
+
+  document.getElementById("vendedorFinal").textContent=
+    data.vendedor||sesion.nombre;
+
+  document.getElementById("totalFinal").textContent=
+    dinero(data.total);
+
+  document.getElementById("codigoFinal").textContent=
+    data.codigoRetiro;
+
+
+  // DETALLE
+
+  const detalle=document.getElementById("detalleFinal");
+  detalle.innerHTML="";
+
+  (data.productos||[]).forEach(p=>{
+
+    const div=document.createElement("div");
+    div.className="ticketProducto";
+
+    let promo="";
+
+    if(p.promoAplicada){
+
+      promo=
+        '<div class="ticketPromo">'+
+        'Promo aplicada: '+
+        p.promoCantidad+
+        ' × '+
+        dinero(p.promoPrecio);
+
+      if(Number(p.bloquesPromo)>1){
+        promo+=' · '+p.bloquesPromo+' promociones';
+      }
+
+      promo+='</div>';
+    }
+
+    div.innerHTML=
+
+      '<div class="ticketProductoTop">'+
+
+        '<span>'+
+        p.cantidad+
+        ' × '+
+        esc(p.producto)+
+        '</span>'+
+
+        '<span>'+
+        dinero(p.importe)+
+        '</span>'+
+
+      '</div>'+
+
+      promo;
+
+    detalle.appendChild(div);
+  });
+
+
+  // PAGO
+
+  const pago=document.getElementById("pagoFinal");
+  pago.innerHTML="";
+
+  const medio=
+    data.pago?.medio||
+    data.medioPago||
+    "";
+
+  pago.innerHTML+=
+    '<div class="ticketDato">'+
+    '<span>Medio</span>'+
+    '<strong>'+esc(medio)+'</strong>'+
+    '</div>';
+
+  if(Number(data.pago?.efectivo)>0){
+
+    pago.innerHTML+=
+      '<div class="ticketDato">'+
+      '<span>Efectivo</span>'+
+      '<strong>'+dinero(data.pago.efectivo)+'</strong>'+
+      '</div>';
+  }
+
+  if(Number(data.pago?.transferencia)>0){
+
+    pago.innerHTML+=
+      '<div class="ticketDato">'+
+      '<span>Transferencia</span>'+
+      '<strong>'+dinero(data.pago.transferencia)+'</strong>'+
+      '</div>';
+  }
+
+
+  // QR
+  /*
+    El QR contiene únicamente el código de retiro.
+    La información real permanece en Sheets.
+  */
+
+  const qrContenido=encodeURIComponent(data.codigoRetiro);
+
+  document.getElementById("qrRetiro").src=
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="+
+    qrContenido;
+
+
+  document.getElementById("venta").classList.add("oculto");
+  document.getElementById("resultado").classList.remove("oculto");
+
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 
@@ -1685,34 +1326,45 @@ async function confirmarVenta(){
 
 async function nuevaVenta(){
 
-  carrito = {};
+  document.getElementById("resultado").classList.add("oculto");
+  document.getElementById("venta").classList.remove("oculto");
 
-
-  document
-    .getElementById(
-      "resultado"
-    )
-    .classList.add(
-      "oculto"
-    );
-
-
-  document
-    .getElementById(
-      "venta"
-    )
-    .classList.remove(
-      "oculto"
-    );
-
+  carrito={};
+  metodoPago="";
 
   await cargarProductos();
 
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+
+// ============================================================
+// FORMATEAR FECHA/HORA
+// ============================================================
+
+function formatearFecha(valor){
+
+  if(!valor)return "";
+
+  const fecha=new Date(valor);
+
+  if(isNaN(fecha.getTime())){
+    return valor;
+  }
+
+  return new Intl.DateTimeFormat(
+    "es-AR",
+    {
+      timeZone:"America/Argentina/San_Juan",
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric",
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit",
+      hour12:false
+    }
+  ).format(fecha);
 }
 
 
@@ -1729,22 +1381,18 @@ function dinero(numero){
       currency:"ARS",
       maximumFractionDigits:0
     }
-  ).format(
-    Number(numero)||0
-  );
+  ).format(Number(numero)||0);
 }
 
 
 function esc(s){
 
-  return String(
-    s == null ? "" : s
-  )
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#039;");
+  return String(s==null?"":s)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 
@@ -1757,7 +1405,7 @@ function js(s){
 
 
 // ============================================================
-// RECUPERAR SESIÓN SI ACTUALIZA LA PÁGINA
+// RECUPERAR SESIÓN
 // ============================================================
 
 window.addEventListener(
@@ -1766,22 +1414,12 @@ window.addEventListener(
 
     try{
 
-      const guardada =
-        sessionStorage.getItem(
-          "barra_sesion"
-        );
+      const guardada=
+        sessionStorage.getItem("barra_sesion");
 
+      if(!guardada)return;
 
-      if(!guardada){
-        return;
-      }
-
-
-      const anterior =
-        JSON.parse(
-          guardada
-        );
-
+      const anterior=JSON.parse(guardada);
 
       if(
         !anterior.idVendedor ||
@@ -1790,62 +1428,30 @@ window.addEventListener(
         return;
       }
 
+      const estado=await apiGet(
+        "turno",
+        {
+          idVendedor:anterior.idVendedor,
+          dispositivo:anterior.dispositivo
+        }
+      );
 
-      const estado =
-        await apiGet(
-          "turno",
-          {
-            idVendedor:
-              anterior.idVendedor,
+      if(estado.turnoActivo){
 
-            dispositivo:
-              anterior.dispositivo
-          }
-        );
+        sesion=anterior;
 
+        document.getElementById("nombreVendedor").textContent=
+          anterior.nombre;
 
-      if(
-        estado.turnoActivo
-      ){
-
-        sesion =
-          anterior;
-
-
-        document
-          .getElementById(
-            "nombreVendedor"
-          )
-          .textContent =
-            anterior.nombre;
-
-
-        document
-          .getElementById(
-            "login"
-          )
-          .classList.add(
-            "oculto"
-          );
-
-
-        document
-          .getElementById(
-            "venta"
-          )
-          .classList.remove(
-            "oculto"
-          );
-
+        document.getElementById("login").classList.add("oculto");
+        document.getElementById("venta").classList.remove("oculto");
 
         await cargarProductos();
       }
 
     }catch(e){
 
-      sessionStorage.removeItem(
-        "barra_sesion"
-      );
+      sessionStorage.removeItem("barra_sesion");
     }
   }
 );
