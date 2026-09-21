@@ -496,6 +496,7 @@ button:disabled{
     <button class="modulo" onclick="abrirModulo('REPORTES')"><span class="moduloIcono">📊</span><span class="moduloTitulo">REPORTES</span><span class="moduloSub">Ventas y movimientos</span></button>
     <button class="modulo" onclick="abrirModulo('USUARIOS')"><span class="moduloIcono">👥</span><span class="moduloTitulo">USUARIOS</span><span class="moduloSub">Vendedores y permisos</span></button>
     <button class="modulo" onclick="abrirModulo('CONFIG')"><span class="moduloIcono">⚙️</span><span class="moduloTitulo">CONFIGURACIÓN</span><span class="moduloSub">Opciones del sistema</span></button>
+    <button class="modulo" onclick="salirSistema()"><span class="moduloIcono">🚪</span><span class="moduloTitulo">SALIR DEL SISTEMA</span><span class="moduloSub">Cerrar sesión sin cerrar la caja</span></button>
   </div>
 
   <div id="modulosVendedor" class="modulos oculto">
@@ -837,7 +838,7 @@ async function iniciarSesion(){
 // ============================================================
 
 function ocultarPantallas(){
-  ["login","panelPrincipal","venta","resultado","caja","cierreResultado","moduloPendiente"].forEach(id=>{
+  ["login","panelPrincipal","venta","resultado","caja","cierreResultado","moduloPendiente","moduloAdmin"].forEach(id=>{
     const el=document.getElementById(id);
     if(el)el.classList.add("oculto");
   });
@@ -877,6 +878,27 @@ async function abrirModulo(modulo){
 
 function volverPanel(){
   mostrarPanel();
+}
+
+function salirSistema(){
+  if(!confirm("¿Desea cerrar la sesión?\n\nEl turno permanecerá abierto.")) return;
+
+  sessionStorage.removeItem("barra_sesion");
+  sesion={
+    idVendedor:"",
+    nombre:"",
+    rol:"",
+    idTurno:"",
+    dispositivo:obtenerDispositivo()
+  };
+
+  ocultarPantallas();
+  document.getElementById("idVendedor").value="";
+  document.getElementById("pin").value="";
+  const ml=document.getElementById("mensajeLogin");
+  if(ml) ml.innerHTML="";
+  document.getElementById("login").classList.remove("oculto");
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 // ============================================================
