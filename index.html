@@ -269,6 +269,9 @@ button:disabled{
 .validacionPago{font-size:12px;margin:12px 0;color:#aaa}
 .valido{color:#69dc8d}
 .invalido{color:#ff8585}
+.vueltoBox{background:#17351f;border:2px solid #69dc8d;border-radius:12px;padding:14px;margin-top:12px;text-align:center}
+.vueltoBox span{display:block;font-size:12px;color:#b8d9c1;font-weight:800}
+.vueltoBox strong{display:block;font-size:30px;color:#69dc8d;margin-top:4px}
 
 .confirmar{margin-top:15px}
 
@@ -1292,9 +1295,17 @@ function actualizarPago(){
 
     div.innerHTML=
       '<div class="pagoFila">'+
-      '<span>Pago en efectivo</span>'+
+      '<span>Total a cobrar</span>'+
       '<strong>'+dinero(total)+'</strong>'+
-      '</div>';
+      '</div>'+
+      '<div class="pagoFila">'+
+      '<span>Recibido</span>'+
+      '<input id="efectivoRecibido" type="number" min="0" inputmode="numeric" '+
+      'placeholder="$0" oninput="calcularVueltoEfectivo()">'+
+      '</div>'+
+      '<div id="vueltoEfectivo"></div>';
+
+    calcularVueltoEfectivo();
   }
 
   if(metodoPago==="TRANSFERENCIA"){
@@ -1304,74 +1315,106 @@ function actualizarPago(){
       '<span>Transferencia / QR</span>'+
       '<strong>'+dinero(total)+'</strong>'+
       '</div>';
+
+    document.getElementById("validacionPago").innerHTML=
+      '<span class="valido">✓ Cobrar '+dinero(total)+' por transferencia</span>';
   }
 
   if(metodoPago==="COMBINADO"){
 
     div.innerHTML=
-
-      '<div class="pagoFila">'+
-      '<span>Efectivo</span>'+
-      '<input id="pagoEfectivo" type="number" min="0" '+
-      'placeholder="$0" oninput="validarPagoCombinado()">'+
-      '</div>'+
-
       '<div class="pagoFila">'+
       '<span>Transferencia</span>'+
-      '<input id="pagoTransferencia" type="number" min="0" '+
+      '<input id="pagoTransferencia" type="number" min="0" inputmode="numeric" '+
       'placeholder="$0" oninput="validarPagoCombinado()">'+
-      '</div>';
-  }
+      '</div>'+
+      '<div class="pagoFila">'+
+      '<span>Efectivo recibido</span>'+
+      '<input id="efectivoRecibidoCombinado" type="number" min="0" inputmode="numeric" '+
+      'placeholder="$0" oninput="validarPagoCombinado()">'+
+      '</div>'+
+      '<div id="vueltoCombinado"></div>';
 
-  validarPagoCombinado();
+    validarPagoCombinado();
+  }
 }
 
+function calcularVueltoEfectivo(){
+
+  if(metodoPago!=="EFECTIVO") return false;
+
+  const total=calcularTotal();
+  const recibido=Number(document.getElementById("efectivoRecibido")?.value||0);
+  const validacion=document.getElementById("validacionPago");
+  const caja=document.getElementById("vueltoEfectivo");
+
+  if(recibido<=0){
+    validacion.innerHTML='<span class="invalido">Ingresá cuánto dinero entrega el cliente.</span>';
+    if(caja) caja.innerHTML='';
+    return false;
+  }
+
+  if(recibido<total){
+    validacion.innerHTML='<span class="invalido">Faltan '+dinero(total-recibido)+'</span>';
+    if(caja) caja.innerHTML='';
+    return false;
+  }
+
+  const vuelto=recibido-total;
+  validacion.innerHTML='<span class="valido">✓ Importe recibido correctamente</span>';
+  if(caja){
+    caja.innerHTML='<div class="vueltoBox"><span>ENTREGAR VUELTO</span><strong>'+dinero(vuelto)+'</strong></div>';
+  }
+  return true;
+}
 
 function validarPagoCombinado(){
 
   const validacion=document.getElementById("validacionPago");
 
-  if(metodoPago!=="COMBINADO"){
+  if(metodoPago!=="COMBINADO") return true;
 
-    validacion.innerHTML="";
-    return true;
-  }
-
-  const efectivo=Number(
-    document.getElementById("pagoEfectivo")?.value||0
-  );
-
-  const transferencia=Number(
-    document.getElementById("pagoTransferencia")?.value||0
-  );
-
+  const transferencia=Number(document.getElementById("pagoTransferencia")?.value||0);
+  const recibido=Number(document.getElementById("efectivoRecibidoCombinado")?.value||0);
   const total=calcularTotal();
-  const ingresado=efectivo+transferencia;
-  const diferencia=total-ingresado;
+  const caja=document.getElementById("vueltoCombinado");
 
-  if(Math.abs(diferencia)<0.01){
-
-    validacion.innerHTML=
-      '<span class="valido">✓ Pago completo: '+
-      dinero(ingresado)+'</span>';
-
-    return true;
+  if(transferencia<0 || recibido<0){
+    validacion.innerHTML='<span class="invalido">Los importes no pueden ser negativos.</span>';
+    if(caja) caja.innerHTML='';
+    return false;
   }
 
-  if(diferencia>0){
-
-    validacion.innerHTML=
-      '<span class="invalido">Faltan '+
-      dinero(diferencia)+'</span>';
-
-  }else{
-
-    validacion.innerHTML=
-      '<span class="invalido">Sobran '+
-      dinero(Math.abs(diferencia))+'</span>';
+  if(transferencia>total){
+    validacion.innerHTML='<span class="invalido">La transferencia supera el total de la venta.</span>';
+    if(caja) caja.innerHTML='';
+    return false;
   }
 
-  return false;
+  const efectivoAplicado=total-transferencia;
+
+  if(efectivoAplicado<=0){
+    validacion.innerHTML='<span class="invalido">Para pago combinado tiene que existir una parte en efectivo.</span>';
+    if(caja) caja.innerHTML='';
+    return false;
+  }
+
+  if(recibido<efectivoAplicado){
+    validacion.innerHTML='<span class="invalido">Faltan '+dinero(efectivoAplicado-recibido)+' en efectivo</span>';
+    if(caja) caja.innerHTML='';
+    return false;
+  }
+
+  const vuelto=recibido-efectivoAplicado;
+  validacion.innerHTML=
+    '<span class="valido">✓ Transferencia '+dinero(transferencia)+
+    ' + efectivo aplicado '+dinero(efectivoAplicado)+'</span>';
+
+  if(caja){
+    caja.innerHTML='<div class="vueltoBox"><span>ENTREGAR VUELTO</span><strong>'+dinero(vuelto)+'</strong></div>';
+  }
+
+  return true;
 }
 
 
@@ -1406,9 +1449,17 @@ async function confirmarVenta(){
 
   let efectivo=0;
   let transferencia=0;
+  let efectivoRecibido=0;
+  let vuelto=0;
 
   if(metodoPago==="EFECTIVO"){
+    if(!calcularVueltoEfectivo()){
+      mensaje.innerHTML='<div class="error">Revisá el efectivo recibido.</div>';
+      return;
+    }
     efectivo=total;
+    efectivoRecibido=Number(document.getElementById("efectivoRecibido")?.value||0);
+    vuelto=efectivoRecibido-total;
   }
 
   if(metodoPago==="TRANSFERENCIA"){
@@ -1416,24 +1467,14 @@ async function confirmarVenta(){
   }
 
   if(metodoPago==="COMBINADO"){
-
-    efectivo=Number(
-      document.getElementById("pagoEfectivo").value||0
-    );
-
-    transferencia=Number(
-      document.getElementById("pagoTransferencia").value||0
-    );
-
     if(!validarPagoCombinado()){
-
-      mensaje.innerHTML=
-        '<div class="error">'+
-        'El pago combinado no coincide con el total.'+
-        '</div>';
-
+      mensaje.innerHTML='<div class="error">Revisá los importes del pago combinado.</div>';
       return;
     }
+    transferencia=Number(document.getElementById("pagoTransferencia")?.value||0);
+    efectivo=total-transferencia;
+    efectivoRecibido=Number(document.getElementById("efectivoRecibidoCombinado")?.value||0);
+    vuelto=efectivoRecibido-efectivo;
   }
 
   const carritoEnviar=
@@ -1462,6 +1503,11 @@ async function confirmarVenta(){
       pagoTransferencia:transferencia,
       pagoOtro:0
     });
+
+    // Datos de caja para mostrar en el ticket.
+    // A Sheets se envía únicamente el efectivo aplicado a la venta, no el dinero recibido antes del vuelto.
+    data.efectivoRecibido=efectivoRecibido;
+    data.vuelto=vuelto;
 
     mostrarTicket(data);
 
@@ -1573,6 +1619,20 @@ function mostrarTicket(data){
       '<strong>'+dinero(data.pago.efectivo)+'</strong>'+
       '</div>';
   }
+
+  if(Number(data.efectivoRecibido)>0){
+
+    pago.innerHTML+=
+      '<div class="ticketDato">'+
+      '<span>Recibido</span>'+
+      '<strong>'+dinero(data.efectivoRecibido)+'</strong>'+
+      '</div>'+
+      '<div class="ticketDato">'+
+      '<span>Vuelto</span>'+
+      '<strong>'+dinero(data.vuelto||0)+'</strong>'+
+      '</div>';
+  }
+
 
   if(Number(data.pago?.transferencia)>0){
 
