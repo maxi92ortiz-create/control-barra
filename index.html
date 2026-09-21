@@ -427,6 +427,18 @@ button:disabled{
 .proximamente strong{display:block;color:#fff;font-size:22px;margin-bottom:10px}
 @media(max-width:420px){.modulos{grid-template-columns:1fr 1fr}.modulo{min-height:105px;padding:14px 10px}.moduloTitulo{font-size:13px}}
 
+
+/* CAJA */
+.cajaGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.cajaDato{background:#17171b;border:1px solid #292930;border-radius:14px;padding:15px}
+.cajaDato span{display:block;color:#8d8d96;font-size:11px;font-weight:bold;margin-bottom:7px}
+.cajaDato strong{font-size:21px;word-break:break-word}
+.cajaTotal{grid-column:1/-1;border-color:#f04fa5}
+.cajaTotal strong{color:#f04fa5;font-size:30px}
+.btnCerrarCaja{width:100%;background:#d93b48;color:#fff;padding:18px;border-radius:11px;margin-top:16px}
+.cierreOk{background:#fff;color:#111;border-radius:18px;padding:22px 18px}
+.cierreOk h2{text-align:center;color:#13883c}
+@media(max-width:400px){.cajaGrid{grid-template-columns:1fr 1fr}.cajaDato strong{font-size:17px}}
 </style>
 </head>
 
@@ -489,6 +501,16 @@ button:disabled{
     <button class="modulo" onclick="abrirModulo('MICaja')"><span class="moduloIcono">💰</span><span class="moduloTitulo">MI CAJA</span><span class="moduloSub">Resumen de mi turno</span></button>
     <button class="modulo" onclick="abrirModulo('CERRAR')"><span class="moduloIcono">🔒</span><span class="moduloTitulo">CERRAR TURNO</span><span class="moduloSub">Cierre y rendición</span></button>
   </div>
+</section>
+
+<section id="caja" class="oculto">
+  <div class="barraModulo"><button class="btnVolver" onclick="volverPanel()">← PANEL</button><div class="turno">MI CAJA</div></div>
+  <div class="logo" style="margin-bottom:15px"><div class="mini">RESUMEN DEL TURNO</div><h1>MI CAJA</h1></div>
+  <div id="cajaContenido"><div class="cargando">Cargando caja...</div></div>
+</section>
+
+<section id="cierreResultado" class="oculto">
+  <div id="cierreContenido"></div>
 </section>
 
 <section id="moduloPendiente" class="oculto">
@@ -808,7 +830,7 @@ async function iniciarSesion(){
 // ============================================================
 
 function ocultarPantallas(){
-  ["login","panelPrincipal","venta","resultado","moduloPendiente"].forEach(id=>{
+  ["login","panelPrincipal","venta","resultado","caja","cierreResultado","moduloPendiente"].forEach(id=>{
     const el=document.getElementById(id);
     if(el)el.classList.add("oculto");
   });
@@ -838,6 +860,11 @@ async function abrirModulo(modulo){
     return;
   }
 
+  if(modulo==="MICaja" || modulo==="CAJAS" || modulo==="CERRAR"){
+    await abrirCaja(modulo==="CERRAR");
+    return;
+  }
+
   const nombres={
     STOCK:"STOCK",
     CONSUMO:"CONSUMO INTERNO",
@@ -859,6 +886,103 @@ async function abrirModulo(modulo){
 function volverPanel(){
   mostrarPanel();
 }
+
+// ============================================================
+// MI CAJA / CIERRE DE TURNO
+// ============================================================
+
+async function abrirCaja(enfocarCierre=false){
+  ocultarPantallas();
+  document.getElementById("caja").classList.remove("oculto");
+  const cont=document.getElementById("cajaContenido");
+  cont.innerHTML='<div class="cargando">Cargando resumen...</div>';
+
+  try{
+    const data=await apiGet("resumen_caja",{
+      idVendedor:sesion.idVendedor,
+      dispositivo:sesion.dispositivo
+    });
+
+    if(!data.turnoActivo){
+      cont.innerHTML='<div class="error">No hay un turno abierto para este usuario.</div>';
+      return;
+    }
+
+    cont.innerHTML=
+      '<div class="panel">'+
+        '<div class="ticketDato"><span>Vendedor</span><strong>'+esc(data.vendedor||sesion.nombre)+'</strong></div>'+
+        '<div class="ticketDato"><span>Turno</span><strong>'+esc(data.idTurno||"")+'</strong></div>'+
+        '<div class="ticketDato"><span>Apertura</span><strong>'+esc(formatearFecha(data.apertura))+'</strong></div>'+
+      '</div>'+
+      '<div class="cajaGrid">'+
+        '<div class="cajaDato"><span>VENTAS</span><strong>'+Number(data.ventas||0)+'</strong></div>'+
+        '<div class="cajaDato"><span>UNIDADES</span><strong>'+Number(data.unidades||0)+'</strong></div>'+
+        '<div class="cajaDato"><span>EFECTIVO</span><strong>'+dinero(data.efectivo)+'</strong></div>'+
+        '<div class="cajaDato"><span>TRANSFERENCIAS</span><strong>'+dinero(data.transferencia)+'</strong></div>'+
+        (Number(data.otros||0)>0?'<div class="cajaDato"><span>OTROS</span><strong>'+dinero(data.otros)+'</strong></div>':'')+
+        '<div class="cajaDato cajaTotal"><span>TOTAL VENDIDO</span><strong>'+dinero(data.total)+'</strong></div>'+
+      '</div>'+
+      '<button id="btnCerrarCaja" class="btnCerrarCaja" onclick="cerrarCaja()">CERRAR CAJA / TURNO</button>'+
+      '<div id="mensajeCaja"></div>';
+
+    if(enfocarCierre){
+      setTimeout(()=>document.getElementById("btnCerrarCaja")?.scrollIntoView({behavior:"smooth",block:"center"}),100);
+    }
+  }catch(e){
+    cont.innerHTML='<div class="error">'+esc(e.message)+'</div>';
+  }
+}
+
+async function cerrarCaja(){
+  const boton=document.getElementById("btnCerrarCaja");
+  const msg=document.getElementById("mensajeCaja");
+
+  if(!confirm("¿CONFIRMÁS EL CIERRE DE CAJA?\n\nDespués del cierre este turno no podrá registrar nuevas ventas.")) return;
+
+  boton.disabled=true;
+  boton.textContent="CERRANDO CAJA...";
+  msg.innerHTML="";
+
+  try{
+    const data=await apiPost({
+      accion:"cerrar_turno",
+      idVendedor:sesion.idVendedor,
+      dispositivo:sesion.dispositivo
+    });
+
+    ocultarPantallas();
+    const cont=document.getElementById("cierreContenido");
+    cont.innerHTML=
+      '<div class="cierreOk">'+
+        '<div class="ticketMarca">CONTROL BARRA</div>'+
+        '<div class="ticketSub">CIERRE DE CAJA</div>'+
+        '<h2>✓ TURNO CERRADO</h2>'+
+        '<div class="ticketDato"><span>Vendedor</span><strong>'+esc(data.vendedor||sesion.nombre)+'</strong></div>'+
+        '<div class="ticketDato"><span>Turno</span><strong>'+esc(data.idTurno||"")+'</strong></div>'+
+        '<div class="ticketDato"><span>Apertura</span><strong>'+esc(formatearFecha(data.apertura))+'</strong></div>'+
+        '<div class="ticketDato"><span>Cierre</span><strong>'+esc(formatearFecha(data.cierre))+'</strong></div>'+
+        '<div class="ticketLinea"></div>'+
+        '<div class="ticketDato"><span>Ventas</span><strong>'+Number(data.ventas||0)+'</strong></div>'+
+        '<div class="ticketDato"><span>Efectivo</span><strong>'+dinero(data.efectivo)+'</strong></div>'+
+        '<div class="ticketDato"><span>Transferencias</span><strong>'+dinero(data.transferencia)+'</strong></div>'+
+        (Number(data.otros||0)>0?'<div class="ticketDato"><span>Otros</span><strong>'+dinero(data.otros)+'</strong></div>':'')+
+        '<div class="ticketTotal"><span>TOTAL</span><span>'+dinero(data.total)+'</span></div>'+
+      '</div>'+
+      '<button class="nuevaVenta" onclick="salirTrasCierre()">FINALIZAR</button>';
+    document.getElementById("cierreResultado").classList.remove("oculto");
+    sessionStorage.removeItem("barra_sesion");
+  }catch(e){
+    msg.innerHTML='<div class="error">'+esc(e.message)+'</div>';
+    boton.disabled=false;
+    boton.textContent="CERRAR CAJA / TURNO";
+  }
+}
+
+function salirTrasCierre(){
+  sessionStorage.removeItem("barra_sesion");
+  location.reload();
+}
+
 
 // ============================================================
 // PRODUCTOS
