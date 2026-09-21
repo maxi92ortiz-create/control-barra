@@ -596,6 +596,11 @@ button:disabled{
       CONFIRMAR VENTA
     </button>
 
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <button class="metodo" onclick="reimprimirUltimoTicket()">🖨️ REIMPRIMIR ÚLTIMO TICKET</button>
+      <button class="metodo" style="border-color:#8b2d3b;color:#ff7c8d" onclick="anularUltimaVenta()">❌ ANULAR ÚLTIMA VENTA</button>
+    </div>
+
     <div id="mensajeVenta"></div>
 
   </div>
@@ -608,7 +613,7 @@ button:disabled{
   <div class="ticket">
 
     <div class="ticketMarca">CONTROL BARRA</div>
-    <div class="ticketSub">TICKET DIGITAL</div>
+    <div id="ticketSubFinal" class="ticketSub">TICKET DIGITAL</div>
 
     <div class="ventaOK">✓ VENTA REGISTRADA</div>
 
@@ -657,6 +662,11 @@ button:disabled{
 
   </div>
 
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+    <button class="metodo" onclick="reimprimirUltimoTicket()">🖨️ REIMPRIMIR</button>
+    <button class="metodo" style="border-color:#8b2d3b;color:#ff7c8d" onclick="anularUltimaVenta()">❌ ANULAR VENTA</button>
+  </div>
+
   <button class="nuevaVenta" onclick="nuevaVenta()">
     NUEVA VENTA
   </button>
@@ -673,6 +683,7 @@ const URL_APP =
 
 let productos=[];
 let carrito={};
+let ultimoTicket=null;
 
 let sesion={
   idVendedor:"",
@@ -1509,7 +1520,9 @@ async function confirmarVenta(){
     data.efectivoRecibido=efectivoRecibido;
     data.vuelto=vuelto;
 
-    mostrarTicket(data);
+    ultimoTicket=data;
+    localStorage.setItem("barra_ultimo_ticket_"+sesion.idVendedor,JSON.stringify(data));
+    mostrarTicket(data,false);
 
   }catch(e){
 
@@ -1528,7 +1541,10 @@ async function confirmarVenta(){
 // TICKET DIGITAL
 // ============================================================
 
-function mostrarTicket(data){
+function mostrarTicket(data,reimpresion=false){
+
+  const sub=document.getElementById("ticketSubFinal");
+  if(sub) sub.textContent=reimpresion?"REIMPRESIÓN · TICKET DIGITAL":"TICKET DIGITAL";
 
   document.getElementById("pedidoFinal").textContent=data.idPedido;
 
@@ -1663,6 +1679,89 @@ function mostrarTicket(data){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
+
+// ============================================================
+// REIMPRESIÓN / ANULACIÓN DE ÚLTIMA VENTA
+// ============================================================
+
+async function reimprimirUltimoTicket(){
+  try{
+    let local=null;
+    try{ local=JSON.parse(localStorage.getItem("barra_ultimo_ticket_"+sesion.idVendedor)||"null"); }catch(e){}
+
+    const data=await apiGet("ultima_venta",{
+      idVendedor:sesion.idVendedor,
+      dispositivo:sesion.dispositivo
+    });
+
+    if(!data.existe){
+      alert("No hay una venta pagada para reimprimir en este turno.");
+      return;
+    }
+
+    // Si es exactamente el mismo ticket conservamos RECIBIDO y VUELTO,
+    // que son datos de atención al cliente y no alteran la caja.
+    if(local && String(local.idPedido)===String(data.idPedido)){
+      data.efectivoRecibido=Number(local.efectivoRecibido)||0;
+      data.vuelto=Number(local.vuelto)||0;
+    }
+
+    ultimoTicket=data;
+    mostrarTicket(data,true);
+  }catch(e){
+    alert(e.message||String(e));
+  }
+}
+
+async function anularUltimaVenta(){
+  let ultima=null;
+  try{
+    ultima=await apiGet("ultima_venta",{
+      idVendedor:sesion.idVendedor,
+      dispositivo:sesion.dispositivo
+    });
+  }catch(e){ alert(e.message||String(e)); return; }
+
+  if(!ultima.existe){
+    alert("No hay una venta pagada para anular en este turno.");
+    return;
+  }
+
+  const detalle=(ultima.productos||[]).map(p=>p.cantidad+" × "+p.producto).join("\n");
+  const motivo=prompt(
+    "ANULAR "+ultima.idPedido+"\n\n"+
+    detalle+"\n\nTOTAL: "+dinero(ultima.total)+
+    "\n\nEscribí el motivo de la anulación:",
+    "OPERACIÓN NO CONCRETADA"
+  );
+  if(motivo===null) return;
+
+  if(!confirm(
+    "¿CONFIRMÁS LA ANULACIÓN DE "+ultima.idPedido+"?\n\n"+
+    "Se devolverá el stock y se descontará "+dinero(ultima.total)+" de la caja.\n\n"+
+    "Esta acción quedará registrada."
+  )) return;
+
+  try{
+    const r=await apiPost({
+      accion:"anular_ultima_venta",
+      idVendedor:sesion.idVendedor,
+      dispositivo:sesion.dispositivo,
+      motivo:String(motivo||"OPERACIÓN NO CONCRETADA").trim()
+    });
+
+    localStorage.removeItem("barra_ultimo_ticket_"+sesion.idVendedor);
+    ultimoTicket=null;
+    alert("VENTA ANULADA\n\n"+r.idPedido+"\nStock devuelto correctamente.\nCaja corregida: -"+dinero(r.total));
+
+    ocultarPantallas();
+    document.getElementById("venta").classList.remove("oculto");
+    await cargarProductos();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }catch(e){
+    alert(e.message||String(e));
+  }
+}
 
 // ============================================================
 // NUEVA VENTA
