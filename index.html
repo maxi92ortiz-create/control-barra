@@ -408,6 +408,25 @@ button:disabled{
 @media(max-width:400px){
   .metodos{grid-template-columns:1fr}
 }
+
+
+/* PANEL MODULAR */
+.panelUsuario{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}
+.panelUsuario .datos{color:#aaa;font-size:13px}
+.panelUsuario .datos strong{display:block;color:#fff;font-size:20px;margin-top:3px}
+.rolBadge{background:#28282e;color:#f04fa5;border:1px solid #3b3b43;padding:8px 11px;border-radius:9px;font-size:11px;font-weight:bold}
+.modulos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.modulo{min-height:112px;background:#17171b;border:1px solid #292930;border-radius:16px;color:#fff;padding:17px 12px;text-align:left}
+.modulo:hover{border-color:#f04fa5}
+.moduloIcono{display:block;font-size:28px;margin-bottom:10px}
+.moduloTitulo{display:block;font-size:15px;font-weight:900}
+.moduloSub{display:block;color:#8d8d96;font-size:11px;margin-top:5px;line-height:1.3}
+.barraModulo{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}
+.btnVolver{background:#28282e;color:#fff;border-radius:9px;padding:10px 13px;font-size:12px}
+.proximamente{text-align:center;padding:35px 15px;color:#aaa}
+.proximamente strong{display:block;color:#fff;font-size:22px;margin-bottom:10px}
+@media(max-width:420px){.modulos{grid-template-columns:1fr 1fr}.modulo{min-height:105px;padding:14px 10px}.moduloTitulo{font-size:13px}}
+
 </style>
 </head>
 
@@ -442,7 +461,45 @@ button:disabled{
 </section>
 
 
+<section id="panelPrincipal" class="oculto">
+  <div class="logo">
+    <div class="mini">SISTEMA DE VENTAS</div>
+    <h1>CONTROL BARRA</h1>
+    <p>PANEL PRINCIPAL</p>
+  </div>
+
+  <div class="panelUsuario">
+    <div class="datos">USUARIO<strong id="panelNombre"></strong></div>
+    <div id="panelRol" class="rolBadge"></div>
+  </div>
+
+  <div id="modulosAdmin" class="modulos oculto">
+    <button class="modulo" onclick="abrirModulo('VENTAS')"><span class="moduloIcono">🛒</span><span class="moduloTitulo">VENTAS</span><span class="moduloSub">Cobrar y emitir ticket</span></button>
+    <button class="modulo" onclick="abrirModulo('STOCK')"><span class="moduloIcono">📦</span><span class="moduloTitulo">STOCK</span><span class="moduloSub">Ver y ajustar existencias</span></button>
+    <button class="modulo" onclick="abrirModulo('CONSUMO')"><span class="moduloIcono">🥤</span><span class="moduloTitulo">CONSUMO INTERNO</span><span class="moduloSub">Registrar consumos</span></button>
+    <button class="modulo" onclick="abrirModulo('PRODUCTOS')"><span class="moduloIcono">💲</span><span class="moduloTitulo">PRODUCTOS / PROMOS</span><span class="moduloSub">Precios y promociones</span></button>
+    <button class="modulo" onclick="abrirModulo('CAJAS')"><span class="moduloIcono">💰</span><span class="moduloTitulo">CAJAS / TURNOS</span><span class="moduloSub">Control de cajas</span></button>
+    <button class="modulo" onclick="abrirModulo('REPORTES')"><span class="moduloIcono">📊</span><span class="moduloTitulo">REPORTES</span><span class="moduloSub">Ventas y movimientos</span></button>
+    <button class="modulo" onclick="abrirModulo('USUARIOS')"><span class="moduloIcono">👥</span><span class="moduloTitulo">USUARIOS</span><span class="moduloSub">Vendedores y permisos</span></button>
+    <button class="modulo" onclick="abrirModulo('CONFIG')"><span class="moduloIcono">⚙️</span><span class="moduloTitulo">CONFIGURACIÓN</span><span class="moduloSub">Opciones del sistema</span></button>
+  </div>
+
+  <div id="modulosVendedor" class="modulos oculto">
+    <button class="modulo" onclick="abrirModulo('VENTAS')"><span class="moduloIcono">🛒</span><span class="moduloTitulo">VENTAS</span><span class="moduloSub">Cobrar y emitir ticket</span></button>
+    <button class="modulo" onclick="abrirModulo('MICaja')"><span class="moduloIcono">💰</span><span class="moduloTitulo">MI CAJA</span><span class="moduloSub">Resumen de mi turno</span></button>
+    <button class="modulo" onclick="abrirModulo('CERRAR')"><span class="moduloIcono">🔒</span><span class="moduloTitulo">CERRAR TURNO</span><span class="moduloSub">Cierre y rendición</span></button>
+  </div>
+</section>
+
+<section id="moduloPendiente" class="oculto">
+  <div class="barraModulo"><button class="btnVolver" onclick="volverPanel()">← PANEL</button><div class="turno">TURNO ABIERTO</div></div>
+  <div class="panel proximamente"><strong id="pendienteTitulo">MÓDULO</strong><span>La estructura ya está preparada. Este módulo se activa en el próximo paso sin tocar Ventas.</span></div>
+</section>
+
+
 <section id="venta" class="oculto">
+
+  <div class="barraModulo"><button class="btnVolver" onclick="volverPanel()">← PANEL</button><div class="turno">VENTAS</div></div>
 
   <div class="cabeceraVenta">
 
@@ -588,7 +645,8 @@ let sesion={
   idVendedor:"",
   nombre:"",
   idTurno:"",
-  dispositivo:""
+  dispositivo:"",
+  rol:""
 };
 
 /*
@@ -718,7 +776,8 @@ async function iniciarSesion(){
       idVendedor:data.idVendedor,
       nombre:data.nombre,
       idTurno:data.idTurno,
-      dispositivo:dispositivo
+      dispositivo:dispositivo,
+      rol:String(data.rol||"VENDEDOR").trim().toUpperCase()
     };
 
     sessionStorage.setItem(
@@ -729,9 +788,7 @@ async function iniciarSesion(){
     document.getElementById("nombreVendedor").textContent=data.nombre;
 
     document.getElementById("login").classList.add("oculto");
-    document.getElementById("venta").classList.remove("oculto");
-
-    await cargarProductos();
+    mostrarPanel();
 
   }catch(e){
 
@@ -745,6 +802,63 @@ async function iniciarSesion(){
   }
 }
 
+
+// ============================================================
+// PANEL / MÓDULOS
+// ============================================================
+
+function ocultarPantallas(){
+  ["login","panelPrincipal","venta","resultado","moduloPendiente"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.classList.add("oculto");
+  });
+}
+
+function mostrarPanel(){
+  ocultarPantallas();
+
+  const rol=String(sesion.rol||"VENDEDOR").trim().toUpperCase();
+  document.getElementById("panelNombre").textContent=sesion.nombre||sesion.idVendedor;
+  document.getElementById("panelRol").textContent=rol;
+
+  document.getElementById("modulosAdmin").classList.toggle("oculto",rol!=="ADMIN");
+  document.getElementById("modulosVendedor").classList.toggle("oculto",rol==="ADMIN");
+
+  document.getElementById("panelPrincipal").classList.remove("oculto");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function abrirModulo(modulo){
+  if(modulo==="VENTAS"){
+    ocultarPantallas();
+    document.getElementById("nombreVendedor").textContent=sesion.nombre;
+    document.getElementById("venta").classList.remove("oculto");
+    await cargarProductos();
+    window.scrollTo({top:0,behavior:"smooth"});
+    return;
+  }
+
+  const nombres={
+    STOCK:"STOCK",
+    CONSUMO:"CONSUMO INTERNO",
+    PRODUCTOS:"PRODUCTOS / PROMOCIONES",
+    CAJAS:"CAJAS / TURNOS",
+    REPORTES:"REPORTES",
+    USUARIOS:"USUARIOS",
+    CONFIG:"CONFIGURACIÓN",
+    MICaja:"MI CAJA",
+    CERRAR:"CERRAR TURNO"
+  };
+
+  ocultarPantallas();
+  document.getElementById("pendienteTitulo").textContent=nombres[modulo]||modulo;
+  document.getElementById("moduloPendiente").classList.remove("oculto");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function volverPanel(){
+  mostrarPanel();
+}
 
 // ============================================================
 // PRODUCTOS
@@ -1439,14 +1553,15 @@ window.addEventListener(
       if(estado.turnoActivo){
 
         sesion=anterior;
+        sesion.rol=String(anterior.rol||estado.rol||"VENDEDOR").trim().toUpperCase();
+
+        sessionStorage.setItem("barra_sesion",JSON.stringify(sesion));
 
         document.getElementById("nombreVendedor").textContent=
           anterior.nombre;
 
         document.getElementById("login").classList.add("oculto");
-        document.getElementById("venta").classList.remove("oculto");
-
-        await cargarProductos();
+        mostrarPanel();
       }
 
     }catch(e){
